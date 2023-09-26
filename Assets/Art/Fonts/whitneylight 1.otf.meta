@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 78958dbda4dd63e45aa878751d21e76e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Whitney Light
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 5fe374e626a1dbf4892608b906e13cec, type: 3}
+  - {fileID: 12800000, guid: c141cd60546b89a4b8e05726b792c955, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
