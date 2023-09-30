@@ -7,6 +7,13 @@ using Valve.VR;
 
 public class IngameMenu : MonoBehaviour
 {
+    #region Events
+
+    [SerializeField] private UnityEvent OnMenuOpen;
+    [SerializeField] private UnityEvent OnMenuClose;
+
+    #endregion
+
     #region Fields
 
     [Header("General")]
@@ -15,10 +22,7 @@ public class IngameMenu : MonoBehaviour
     [SerializeField] private SteamVR_Action_Boolean toogleMenu;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject optionMenu;
-
-    [SerializeField] private UnityEvent TriggerEventOnMenuOpen;
-    [SerializeField] private UnityEvent TriggerEventOnMenuClose;
-
+  
     [Header("Playables")]
     [SerializeField] private PlayableDirector showPauseMenu;
     [SerializeField] private PlayableDirector hidePauseMenu;
@@ -83,7 +87,7 @@ public class IngameMenu : MonoBehaviour
         pauseMenuActive = true;
         //ChangeCursorVisibility(true);
         //showPauseMenu?.Play();
-        TriggerEventOnMenuOpen?.Invoke();
+        OnMenuOpen?.Invoke();
         if (pauseMenu != null) pauseMenu.SetActive(true);
         SetTimeScale(0f);
         //Debug.Log(GamePaused);
@@ -96,7 +100,7 @@ public class IngameMenu : MonoBehaviour
         SetTimeScale(1f);
         if (pauseMenu != null) pauseMenu.SetActive(false);
         //hidePauseMenu?.Play();
-        TriggerEventOnMenuClose?.Invoke();
+        OnMenuClose?.Invoke();
         //ChangeCursorVisibility(false);
         //Debug.Log(GamePaused);
     }
@@ -135,7 +139,7 @@ public class IngameMenu : MonoBehaviour
 
     #endregion
 
-    #region Audio
+    /*#region Audio
 
     public void Play_Button_Click_Audio()
     {     
@@ -150,5 +154,5 @@ public class IngameMenu : MonoBehaviour
     }
 
 
-    #endregion Audio
+    #endregion Audio*/
 }

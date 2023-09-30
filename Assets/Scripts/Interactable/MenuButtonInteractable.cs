@@ -8,13 +8,16 @@ using UnityEngine.EventSystems;
 namespace eecon_lab.Interactables
 {
     public class MenuButtonInteractable : Interactable
-    {
-        public UnityEvent OnScanCompleteEvent;
+    {     
+        [SerializeField] private UnityEvent OnHoverEnter;
+        [SerializeField] private UnityEvent OnHoverExit;
+        private bool onHover;
+        private Button button;
 
-        [SerializeField] private Button button;
-        public UnityEvent OnHoverEnter;
-        public UnityEvent OnHoverExit;
-        public bool onHover;
+        private void Start()
+        {
+            button = GetComponent<Button>();
+        }
 
         public override void ChangeFocusState(bool focus)
         {
@@ -25,7 +28,7 @@ namespace eecon_lab.Interactables
                 onHover = false;
                 PointerEventData e = new PointerEventData(EventSystem.current);
                 button.OnPointerExit(e);
-                OnFocus?.Invoke(onFocus, -1f);
+                OnFocus?.Invoke(onFocus, 0f);
                 OnHoverExit?.Invoke();
 
                 BaseEventData eventData = new BaseEventData(EventSystem.current);
@@ -42,9 +45,9 @@ namespace eecon_lab.Interactables
             }          
         }
 
-        public override void OnScanComplete()
+        public override void ScanComplete()
         {
-            base.OnScanComplete();
+            base.ScanComplete();
             Debug.Log("Scan Complete");
             if (!onHover) return;
             button.onClick.Invoke();

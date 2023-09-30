@@ -63,31 +63,25 @@ namespace eecon_lab.Character
 
             if (Physics.Raycast(ray, out hit, scanRange, interactableLayer))
             {
-                //Debug.Log("Scan");
-                var interactable = hit.collider.GetComponent<Interactable>();
-
-                if (interactable == null)
+                if (!HitInteractable(hit))
                 {
-                    Debug.Log("NoInteractable");
-                    if(hasFocus)
-                    {                       
+                    if (hasFocus)
+                    {
                         hasFocus = false;
-                        if(interactableOnFocus != null) interactableOnFocus.ChangeFocusState(true);
-                    }                 
+                        if (interactableOnFocus != null) interactableOnFocus.ChangeFocusState(true);
+                    }
                     return;
                 }
 
-                if (!interactable.IsInteractable)
+                if (!interactableOnFocus.IsInteractable)
                 {
-                    Debug.Log("Interactable on focus is disabled");
+                    interactableOnFocus = null;
                     return;
                 }
 
                 hasFocus = true;
                 float distance = Vector3.Distance(transform.position, hit.point);
                 Debug.DrawRay(ray.origin, ray.direction * distance, Color.green);
-
-                interactableOnFocus = interactable;
                 interactableOnFocus.ChangeFocusState(true);
             }
             else if(hasFocus)
@@ -96,6 +90,15 @@ namespace eecon_lab.Character
                 if (interactableOnFocus != null) interactableOnFocus.ChangeFocusState(false);
                 interactableOnFocus = null;                
             }
+        }
+
+        private bool HitInteractable(RaycastHit hit)
+        {
+            var interactable = hit.collider.GetComponent<Interactable>();
+
+            if(interactable == null)return false;
+            interactableOnFocus = interactable;
+            return true;
         }
 
         private void OnScanComplete()

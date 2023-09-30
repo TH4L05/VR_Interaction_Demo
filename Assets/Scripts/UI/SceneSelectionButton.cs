@@ -7,14 +7,26 @@ using eecon_lab.Scene;
 
 namespace eecon_lab.UI
 {
+    [System.Serializable]
+    public struct SceneSelectionData
+    {
+        public string sceneName;
+        public int sceneIndex;
+        public Sprite previewSprite;
+    }
+
     public class SceneSelectionButton : MonoBehaviour
     {
-        [SerializeField] private string sceneName;
-        [SerializeField] private int sceneIndex;
-        [SerializeField] private Sprite previewSprite;
+        #region Fields
+
+        [SerializeField] private SceneSelectionData sceneSelectionData;
 
         private SceneSelection sceneSelection;
         private TextMeshProUGUI buttonTextField;
+
+        #endregion
+
+        #region UnityFunctions
 
         private void Start()
         {
@@ -23,6 +35,8 @@ namespace eecon_lab.UI
             var button = GetComponent<Button>();
             SetText(button.interactable);
         }
+
+        #endregion;
 
         public void ChangeLockedState(bool locked)
         {
@@ -35,7 +49,7 @@ namespace eecon_lab.UI
         {
             if (active)
             {
-                if (buttonTextField != null) buttonTextField.text = sceneName;
+                if (buttonTextField != null) buttonTextField.text = sceneSelectionData.sceneName;
             }
             else
             {
@@ -46,8 +60,8 @@ namespace eecon_lab.UI
         public void SetPrevievImage()
         {
             if (sceneSelection == null) return;
-            if (previewSprite == null) return;
-            sceneSelection.SetScenePreview(sceneName, previewSprite, sceneIndex);
+            if (sceneSelectionData.previewSprite == null) return;
+            sceneSelection.SetScenePreview(sceneSelectionData.sceneName, sceneSelectionData.previewSprite, sceneSelectionData.sceneIndex);
         }
     }
 }

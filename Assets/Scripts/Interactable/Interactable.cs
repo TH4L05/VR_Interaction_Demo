@@ -3,6 +3,7 @@
 using System;
 using UnityEngine;
 using eecon_lab.UI;
+using UnityEngine.Events;
 
 namespace eecon_lab.Interactables
 {
@@ -12,6 +13,7 @@ namespace eecon_lab.Interactables
 
         [SerializeField] protected bool isInteractable = true;
         [SerializeField, Range(0.1f, 10.0f)] protected float scanDuration = 2.0f;
+        public UnityEvent OnScanComplete;
         protected bool onFocus;
         
         public bool IsInteractable => isInteractable;
@@ -19,13 +21,13 @@ namespace eecon_lab.Interactables
         void Start()
         {
             if (!isInteractable) return;
-            ScanUI.ScanComplete += OnScanComplete;
+            ScanUI.ScanComplete += ScanComplete;
             AdditionalStart();
         }
 
         private void OnDestroy()
         {
-            ScanUI.ScanComplete -= OnScanComplete;
+            ScanUI.ScanComplete -= ScanComplete;
         }
 
         protected virtual void AdditionalStart()
@@ -49,10 +51,10 @@ namespace eecon_lab.Interactables
             onFocus = focus;
         }
 
-        public virtual void OnScanComplete()
+        public virtual void ScanComplete()
         {
             onFocus = false;
-            //OnFocus.Invoke(false, 0f);
+            OnScanComplete?.Invoke();
         }
     }
 }

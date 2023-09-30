@@ -15,14 +15,14 @@ namespace eecon_lab.Interactables
             teleport = Game.Instance.Teleport;
         }
 
-        public override void OnScanComplete()
+        public override void ScanComplete()
         {
             if(!onFocus)
             {
                 return;
             }
             Debug.Log("ScanComplete");
-            base.OnScanComplete();
+            base.ScanComplete();
             onFocus = false;
             teleport.SetTeleport(gameObject);
             OnScanCompleteEvent?.Invoke();  

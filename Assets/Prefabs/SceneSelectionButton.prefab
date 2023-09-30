@@ -482,9 +482,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b71e5b26244a46043a421a9fda6432ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Scene01
-  sceneIndex: 2
-  previewSprite: {fileID: 21300000, guid: 4ecef483c00236145b79127af06922aa, type: 3}
+  sceneSelectionData:
+    sceneName: Scene01
+    sceneIndex: 2
+    previewSprite: {fileID: 21300000, guid: 4ecef483c00236145b79127af06922aa, type: 3}
 --- !u!95 &1762016739727486185
 Animator:
   serializedVersion: 5

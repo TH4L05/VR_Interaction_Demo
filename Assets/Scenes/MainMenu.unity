@@ -991,6 +991,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d21d70084b980a7468a68bb96f55e839,
         type: 3}
+    - target: {fileID: 2966271865208395195, guid: 8bd88869ef806344784345d56be2d3f2,
+        type: 3}
+      propertyPath: sceneSelectionData.sceneName
+      value: Scene02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966271865208395195, guid: 8bd88869ef806344784345d56be2d3f2,
+        type: 3}
+      propertyPath: sceneSelectionData.previewSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d21d70084b980a7468a68bb96f55e839,
+        type: 3}
     - target: {fileID: 3550797913571765356, guid: 8bd88869ef806344784345d56be2d3f2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -2792,6 +2803,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 1ed2ef1448962934fac8295ac9a2669d,
         type: 3}
+    - target: {fileID: 2966271865208395195, guid: 8bd88869ef806344784345d56be2d3f2,
+        type: 3}
+      propertyPath: sceneSelectionData.sceneName
+      value: Scene03
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966271865208395195, guid: 8bd88869ef806344784345d56be2d3f2,
+        type: 3}
+      propertyPath: sceneSelectionData.previewSprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3550797913571765356, guid: 8bd88869ef806344784345d56be2d3f2,
         type: 3}
       propertyPath: m_Interactable
@@ -3184,18 +3205,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInteractable: 1
-  scanDuration: 2
-  OnScanCompleteEvent:
+  scanDuration: 1.5
+  OnScanComplete:
     m_PersistentCalls:
       m_Calls: []
-  button: {fileID: 1439916155}
   OnHoverEnter:
     m_PersistentCalls:
       m_Calls: []
   OnHoverExit:
     m_PersistentCalls:
       m_Calls: []
-  onHover: 0
 --- !u!95 &1439916160
 Animator:
   serializedVersion: 5
@@ -3861,17 +3880,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d445fca444867e4ea75b87840e00c1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnMenuOpen:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMenuClose:
+    m_PersistentCalls:
+      m_Calls: []
   toogleMenu:
     actionPath: /actions/default/in/ToggleIngameMenu
     needsReinit: 0
   pauseMenu: {fileID: 9178310658503512878}
   optionMenu: {fileID: 0}
-  TriggerEventOnMenuOpen:
-    m_PersistentCalls:
-      m_Calls: []
-  TriggerEventOnMenuClose:
-    m_PersistentCalls:
-      m_Calls: []
   showPauseMenu: {fileID: 0}
   hidePauseMenu: {fileID: 0}
   showOptionsMenu: {fileID: 0}
@@ -4145,11 +4164,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HudMK
-      objectReference: {fileID: 0}
-    - target: {fileID: 3714125560959610158, guid: d4d99147afd76ce42a8ba965da000367,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7753718718644518266, guid: d4d99147afd76ce42a8ba965da000367,
         type: 3}
@@ -4741,27 +4755,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hud
       objectReference: {fileID: 0}
-    - target: {fileID: 4595128162481217498, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6572707390742912767, guid: 4c7c4cce865f7e148a87c140f1113de9,
         type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1457519054499466553}
-    - target: {fileID: 8408556026171488781, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 98db585193212204f9aa455f9f103d5b,
-        type: 3}
-    - target: {fileID: 8408556026171488781, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 2100000, guid: f7d07159f7a5a3c41b7ccf3229f59604, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
