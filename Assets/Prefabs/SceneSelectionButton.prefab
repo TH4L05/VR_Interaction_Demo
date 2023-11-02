@@ -294,8 +294,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2357805858099728075}
   - component: {fileID: 8764579856178019594}
-  - component: {fileID: 2417150590726085515}
-  - component: {fileID: 3550797913571765356}
   - component: {fileID: 6558803369242105998}
   - component: {fileID: 4840568275924169974}
   - component: {fileID: 2966271865208395195}
@@ -337,93 +335,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8349951937791354529}
   m_CullTransparentMesh: 1
---- !u!114 &2417150590726085515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8349951937791354529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.88235295}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: eb48d89bba1ddf44dae652981f265e55, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &3550797913571765356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8349951937791354529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 3
-  m_Colors:
-    m_NormalColor: {r: 0.20392157, g: 0.3254902, b: 0.4509804, a: 0.88235295}
-    m_HighlightedColor: {r: 0.35169098, g: 0.5221527, b: 0.6981132, a: 0.88235295}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: e684729e0dafc7a4e9a748277cc55c43,
-      type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: e684729e0dafc7a4e9a748277cc55c43, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: e684729e0dafc7a4e9a748277cc55c43, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: 522ffedace80c734b81b15e535f5ce15, type: 3}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 6581791881894084644}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2966271865208395195}
-        m_TargetAssemblyTypeName: SceneSelectionButton, Assembly-CSharp
-        m_MethodName: SetPrevievImage
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!65 &6558803369242105998
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -457,19 +368,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1004e70bedfb5d34ea9406a05e07442d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnFocusEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFocusExit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnScanComplete:
+    m_PersistentCalls:
+      m_Calls: []
   isInteractable: 1
   scanDuration: 1
-  OnScanCompleteEvent:
+  animator: {fileID: 1762016739727486185}
+  OnClick:
     m_PersistentCalls:
-      m_Calls: []
-  button: {fileID: 3550797913571765356}
-  OnHoverEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHoverExit:
-    m_PersistentCalls:
-      m_Calls: []
-  onHover: 0
+      m_Calls:
+      - m_Target: {fileID: 2966271865208395195}
+        m_TargetAssemblyTypeName: eecon_lab.UI.SceneSelectionButton, Assembly-CSharp
+        m_MethodName: SetPrevievImage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2966271865208395195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,10 +407,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b71e5b26244a46043a421a9fda6432ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneSelectionData:
-    sceneName: Scene01
-    sceneIndex: 2
-    previewSprite: {fileID: 21300000, guid: 4ecef483c00236145b79127af06922aa, type: 3}
+  sceneName: Scene 01
+  sceneIndex: 2
+  previewSprite: {fileID: 21300000, guid: 4ecef483c00236145b79127af06922aa, type: 3}
+  interactable: {fileID: 0}
 --- !u!95 &1762016739727486185
 Animator:
   serializedVersion: 5

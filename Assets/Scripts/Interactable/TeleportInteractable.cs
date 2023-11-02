@@ -6,8 +6,7 @@ using UnityEngine.Events;
 namespace eecon_lab.Interactables
 {
     public class TeleportInteractable : Interactable
-    {
-        public UnityEvent OnScanCompleteEvent;
+    {     
         private Teleport teleport;
 
         protected override void AdditionalStart()
@@ -15,17 +14,11 @@ namespace eecon_lab.Interactables
             teleport = Game.Instance.Teleport;
         }
 
-        public override void ScanComplete()
+        public override void OnScanIsComplete()
         {
-            if(!onFocus)
-            {
-                return;
-            }
-            Debug.Log("ScanComplete");
-            base.ScanComplete();
-            onFocus = false;
+            if (!onFocus) return;
             teleport.SetTeleport(gameObject);
-            OnScanCompleteEvent?.Invoke();  
+            base.OnScanIsComplete();
         }
     }
 }

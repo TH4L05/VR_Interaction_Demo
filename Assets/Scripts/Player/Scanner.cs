@@ -13,7 +13,7 @@ namespace eecon_lab.Character
         #region SerializedFields
 
         [SerializeField] private bool isEnabled;
-        [SerializeField, Range(1f, 99f)] private float scanRange = 10.0f;
+        [SerializeField, Range(1f, 100f)] private float scanRange = 10.0f;
         [SerializeField] private Transform scanOrigin;
         [SerializeField] private LayerMask interactableLayer;
 
@@ -49,6 +49,11 @@ namespace eecon_lab.Character
 
         #region Scan
 
+        public void ScanIsEnabled(bool enabled)
+        {
+            isEnabled = enabled;
+        }
+
         private void Scan()
         {
             if (paused) return;
@@ -63,25 +68,31 @@ namespace eecon_lab.Character
 
             if (Physics.Raycast(ray, out hit, scanRange, interactableLayer))
             {
-                if (!HitInteractable(hit))
+                //Debug.Log("Scan");
+                var interactable = hit.collider.GetComponent<Interactable>();
+
+                if (interactable == null)
                 {
-                    if (hasFocus)
-                    {
+                    Debug.Log("Found object on interactable Layer but Component is missing");
+                    if(hasFocus)
+                    {                       
                         hasFocus = false;
-                        if (interactableOnFocus != null) interactableOnFocus.ChangeFocusState(true);
-                    }
+                        if(interactableOnFocus != null) interactableOnFocus.ChangeFocusState(false);
+                    }                 
                     return;
                 }
 
-                if (!interactableOnFocus.IsInteractable)
+                if (!interactable.IsInteractable)
                 {
-                    interactableOnFocus = null;
+                    Debug.Log("Interactable on focus is not interactable");
                     return;
                 }
 
                 hasFocus = true;
                 float distance = Vector3.Distance(transform.position, hit.point);
                 Debug.DrawRay(ray.origin, ray.direction * distance, Color.green);
+
+                interactableOnFocus = interactable;
                 interactableOnFocus.ChangeFocusState(true);
             }
             else if(hasFocus)
@@ -92,32 +103,19 @@ namespace eecon_lab.Character
             }
         }
 
-        private bool HitInteractable(RaycastHit hit)
-        {
-            var interactable = hit.collider.GetComponent<Interactable>();
-
-            if(interactable == null)return false;
-            interactableOnFocus = interactable;
-            return true;
-        }
-
         private void OnScanComplete()
         {
             paused = true;
-            StartCoroutine(PauseWait1());
+            hasFocus = false;
+            StartCoroutine(PauseWait());
         }
 
-        IEnumerator PauseWait1()
+        IEnumerator PauseWait()
         {
             yield return new WaitForSeconds(0.25f);        
             if (interactableOnFocus != null) interactableOnFocus.ChangeFocusState(false);
+            yield return new WaitForSeconds(1.5f);
             interactableOnFocus = null;
-            StartCoroutine(PauseWait2());
-        }
-
-        IEnumerator PauseWait2()
-        {          
-            yield return new WaitForSeconds(2f);
             paused = false;
         }
 

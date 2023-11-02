@@ -4,52 +4,41 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using eecon_lab.Scene;
+using eecon_lab.Interactables;
 
 namespace eecon_lab.UI
 {
-    [System.Serializable]
-    public struct SceneSelectionData
-    {
-        public string sceneName;
-        public int sceneIndex;
-        public Sprite previewSprite;
-    }
-
     public class SceneSelectionButton : MonoBehaviour
     {
-        #region Fields
-
-        [SerializeField] private SceneSelectionData sceneSelectionData;
+        [SerializeField] private string sceneName;
+        [SerializeField] private int sceneIndex;
+        [SerializeField] private Sprite previewSprite;
+        [SerializeField] private MenuButtonInteractable interactable;
 
         private SceneSelection sceneSelection;
         private TextMeshProUGUI buttonTextField;
-
-        #endregion
-
-        #region UnityFunctions
 
         private void Start()
         {
             sceneSelection = transform.parent.GetComponent<SceneSelection>();
             buttonTextField = GetComponentInChildren<TextMeshProUGUI>();
-            var button = GetComponent<Button>();
-            SetText(button.interactable);
+            interactable = GetComponent<MenuButtonInteractable>();
+            //var button = GetComponent<Button>();
+            SetText(interactable.IsInteractable);
         }
-
-        #endregion;
 
         public void ChangeLockedState(bool locked)
         {
-            var button = GetComponent<Button>();
-            button.interactable = locked;
-            SetText(!locked);
+            //var button = GetComponent<Button>();
+            //button.interactable = locked;
+            SetText(locked);
         }
 
         private void SetText(bool active)
         {
             if (active)
             {
-                if (buttonTextField != null) buttonTextField.text = sceneSelectionData.sceneName;
+                if (buttonTextField != null) buttonTextField.text = sceneName;
             }
             else
             {
@@ -60,8 +49,8 @@ namespace eecon_lab.UI
         public void SetPrevievImage()
         {
             if (sceneSelection == null) return;
-            if (sceneSelectionData.previewSprite == null) return;
-            sceneSelection.SetScenePreview(sceneSelectionData.sceneName, sceneSelectionData.previewSprite, sceneSelectionData.sceneIndex);
+            if (previewSprite == null) return;
+            sceneSelection.SetScenePreview(sceneName, previewSprite, sceneIndex);
         }
     }
 }

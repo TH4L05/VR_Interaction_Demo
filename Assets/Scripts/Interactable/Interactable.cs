@@ -9,11 +9,14 @@ namespace eecon_lab.Interactables
 {
     public class Interactable : MonoBehaviour
     {
-        public static Action<bool, float> OnFocus;
+        public static Action<float> OnFocus;
+        public static Action LostFocus;
+        public UnityEvent OnFocusEnter;
+        public UnityEvent OnFocusExit;
+        public UnityEvent OnScanComplete;
 
         [SerializeField] protected bool isInteractable = true;
         [SerializeField, Range(0.1f, 10.0f)] protected float scanDuration = 2.0f;
-        public UnityEvent OnScanComplete;
         protected bool onFocus;
         
         public bool IsInteractable => isInteractable;
@@ -21,18 +24,17 @@ namespace eecon_lab.Interactables
         void Start()
         {
             if (!isInteractable) return;
-            ScanUI.ScanComplete += ScanComplete;
+            ScanUI.ScanComplete += OnScanIsComplete;
             AdditionalStart();
         }
 
         private void OnDestroy()
         {
-            ScanUI.ScanComplete -= ScanComplete;
+            ScanUI.ScanComplete -= OnScanIsComplete;
         }
 
         protected virtual void AdditionalStart()
         {
-
         }
 
         public virtual void ChangeFocusState(bool focus)
@@ -40,21 +42,24 @@ namespace eecon_lab.Interactables
             if (focus)
             {
                 if (onFocus) return;
-                OnFocus.Invoke(focus, scanDuration);
+                OnFocus?.Invoke(scanDuration);
+                OnFocusEnter?.Invoke();
             }
             else
             {
                 if (!onFocus) return;
-                OnFocus.Invoke(focus, 0f);
+                LostFocus?.Invoke();
+                OnFocusExit?.Invoke();  
             }
-
             onFocus = focus;
         }
 
-        public virtual void ScanComplete()
+        public virtual void OnScanIsComplete()
         {
+            if (!onFocus) return;
             onFocus = false;
             OnScanComplete?.Invoke();
+            LostFocus?.Invoke();
         }
     }
 }

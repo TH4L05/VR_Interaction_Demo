@@ -19,9 +19,11 @@ namespace eecon_lab.UI
         #region SerializedFields
 
         [SerializeField] private Image scanFillImage;
-        [SerializeField] private Image crosshair;
-        [SerializeField] private Color crosshairColorDefault;
-        [SerializeField] private Color crosshairColorFocus;
+        [SerializeField] private Image crosshairOuter;
+        [SerializeField] private Sprite crosshairOuterDefault;
+        [SerializeField] private Sprite crosshairOuterFocus;
+        //[SerializeField] private Color colorDefault;
+        //[SerializeField] private Color colorOnFocus;
 
         #endregion
 
@@ -35,71 +37,66 @@ namespace eecon_lab.UI
 
         #region UnityFunctions
 
-        void Start ()
+        void OnEnable ()
         {
-            Interactable.OnFocus += UpdateScanBar;
+            Interactable.OnFocus += OnFocus;
+            Interactable.LostFocus += LostFocus;
             ResetScanbar();
         }
 
         private void OnDestroy()
         {
-            Interactable.OnFocus -= UpdateScanBar;
+            Interactable.OnFocus -= OnFocus;
+            Interactable.LostFocus -= LostFocus;
         }
 
-        private void LateUpdate()
+        #endregion
+
+        #region Focus
+        private void OnFocus( float scanDuration)
         {
+            UpdateCrosshair(true);
+            if (onScan) return;
+            this.scanDuration = scanDuration;
+            scanFillImage.gameObject.SetActive(true);
+            StartCoroutine(FillScanbar());
+            onScan = true;
+        }
+        
+        private void LostFocus()
+        {
+            UpdateCrosshair(false);
             if (!onScan) return;
-            FillScanBar();
+            StopCoroutine(FillScanbar());
+            ResetScanbar();
+            onScan = false;
         }
 
         #endregion
 
         #region Scanbar
 
-        private void UpdateScanBar(bool onFocus, float scanDuration)
-        {       
-            if(onFocus)
-            {
-                if (onScan) return;              
-                this.scanDuration = scanDuration;
-                scanFillImage.gameObject.SetActive(true);
-                StartCoroutine(Delay());
-
-            }
-            else
-            {
-                if (!onScan) return;
-                ResetScanbar();    
-            }
-
-            UpdateCrosshair(onFocus);
-        }
-
-        IEnumerator Delay()
+        IEnumerator FillScanbar()
         {
             yield return new WaitForSeconds(0.5f);
-            onScan = true;
+            while (currentScanTime < scanDuration)
+            {
+                UpdateScanBar();
+                currentScanTime += 0.1f;
+                yield return new WaitForSeconds(0.1f);
+            }
+            ScanComplete.Invoke();
+            ResetScanbar();
         }
 
-        private void FillScanBar()
+        private void UpdateScanBar()
         {            
-            currentScanTime += Time.deltaTime;       
-           
-            if(currentScanTime >= scanDuration)
-            {
-                ScanComplete.Invoke();
-                onScan = false;           
-                ResetScanbar() ;
-                UpdateCrosshair(false);
-                return;
-            }
-
             if (scanFillImage != null) scanFillImage.fillAmount = currentScanTime / scanDuration;
         }
 
         private void ResetScanbar()
         {
-            onScan = false;
+           
             if (scanFillImage != null) scanFillImage.fillAmount = 0.01f;
             scanDuration = 0f;
             currentScanTime = 0f;
@@ -110,17 +107,21 @@ namespace eecon_lab.UI
 
         #region Crosshair
 
-        private void UpdateCrosshair(bool onFocus)
+        private void UpdateCrosshair(bool focus)
         {
-            if (crosshair == null) return;
+            if (crosshairOuter == null) return;
 
-            if (onFocus)
+            if (focus)
             {
-                crosshair.color = crosshairColorFocus;
+                crosshairOuter.sprite = crosshairOuterFocus;
+                //crosshairOuter.color = colorOnFocus;
+                //scanFillImage.color = colorOnFocus;
             }
             else
             {
-                crosshair.color = crosshairColorDefault;
+                crosshairOuter.sprite = crosshairOuterDefault;
+                //crosshairOuter.color = colorDefault;
+                //scanFillImage.color = colorDefault;
             }
         }
 

@@ -8,6 +8,7 @@ namespace eecon_lab.UI
     public class HudVR : MonoBehaviour
     {
         [SerializeField] private float baseDistance = 2.0f;
+        [SerializeField, Range(0f, 1.0f)] private float offset = 0.1f;
         [SerializeField] private LayerMask groundLayer;
         private Transform playerCamera;
         private Canvas canvas;
@@ -30,7 +31,7 @@ namespace eecon_lab.UI
 
             if (Physics.Raycast(ray, out RaycastHit hit, baseDistance, groundLayer))
             {
-                distance = Vector3.Distance(playerCamera.position, hit.point) - 0.1f;
+                distance = Vector3.Distance(playerCamera.position, hit.point) - offset;
             }
            
             canvas.planeDistance = distance;

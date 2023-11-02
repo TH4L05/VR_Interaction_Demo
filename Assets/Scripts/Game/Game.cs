@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using eecon_lab.Input;
 using TK;
+using UnityEngine.XR.Management;
 
 namespace eecon_lab
 {
@@ -12,12 +13,16 @@ namespace eecon_lab
     {
         #region SerializedFields
 
+        [Header("Option")]
+        [SerializeField] private bool initializeXR = false;
+
         [Header("References")]
-        [SerializeField] private GameObject playerGameObject;
+        [SerializeField] private GameObject playerVR_GameObject;
+        [SerializeField] private GameObject playerMK_GameObject;
         [SerializeField] private Teleport teleport;
         [SerializeField] private SceneLoad sceneLoad;
 
-        [Header("Test")]
+        [Header("Dev")]
         [SerializeField] private GameObject testCamera;
 
         [Header("Logo")]
@@ -30,8 +35,14 @@ namespace eecon_lab
         #region PublicFields
 
         public static Game Instance;
-        public GameObject PlayerGO => playerGameObject;
+        public GameObject PlayerGO => activePlayer;
         public Teleport Teleport => teleport;
+
+        #endregion
+
+        #region PrivateFields
+
+        private GameObject activePlayer;
 
         #endregion
 
@@ -40,7 +51,12 @@ namespace eecon_lab
         private void Awake()
         {
             Instance = this;
-            if(testCamera != null) testCamera.SetActive(false);
+            Initialize();
+        }
+        
+        void Start()
+        {
+            StartSetup();
         }
 
         private void LateUpdate()
@@ -51,12 +67,53 @@ namespace eecon_lab
             }
         }
 
-        void Start()
+        #endregion
+
+        #region Setup
+        
+        private void Initialize()
+        {
+            if (testCamera != null) testCamera.SetActive(false);
+
+            if (initializeXR)
+            {
+                StartCoroutine(InitializeXR());             
+            }
+            else
+            {
+                activePlayer = playerMK_GameObject;
+                
+            }
+
+            activePlayer.SetActive(true);
+        }
+        
+        private void StartSetup()
         {
             if (!showStartLogo) return;
             StartCoroutine("StartDirector");
-            //XRGeneralSettings.Instance.Manager.InitializeLoaderSync();
-            //XRGeneralSettings.Instance.Manager.StartSubsystems();
+        }
+        
+        private IEnumerator InitializeXR()
+        {
+            yield return XRGeneralSettings.Instance.Manager.InitializeLoader();
+
+            if (XRGeneralSettings.Instance.Manager.activeLoader == null)
+            {
+                Debug.LogError("Initializing XR Failed.");
+                activePlayer = playerMK_GameObject;
+            }
+            else
+            {            
+                XRGeneralSettings.Instance.Manager.StartSubsystems();   
+                activePlayer = playerVR_GameObject;
+            }
+        }
+        
+        public void StopXR()
+        {          
+            XRGeneralSettings.Instance.Manager.StopSubsystems();
+            XRGeneralSettings.Instance.Manager.DeinitializeLoader();
         }
 
         #endregion

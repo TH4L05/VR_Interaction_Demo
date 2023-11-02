@@ -8,16 +8,10 @@ using UnityEngine.EventSystems;
 namespace eecon_lab.Interactables
 {
     public class MenuButtonInteractable : Interactable
-    {     
-        [SerializeField] private UnityEvent OnHoverEnter;
-        [SerializeField] private UnityEvent OnHoverExit;
+    {
+        [SerializeField] private Animator animator;
+        public UnityEvent OnClick;
         private bool onHover;
-        private Button button;
-
-        private void Start()
-        {
-            button = GetComponent<Button>();
-        }
 
         public override void ChangeFocusState(bool focus)
         {
@@ -26,33 +20,23 @@ namespace eecon_lab.Interactables
             if(onHover && !onFocus)
             {
                 onHover = false;
-                PointerEventData e = new PointerEventData(EventSystem.current);
-                button.OnPointerExit(e);
-                OnFocus?.Invoke(onFocus, 0f);
-                OnHoverExit?.Invoke();
-
-                BaseEventData eventData = new BaseEventData(EventSystem.current);
-                button.OnDeselect(eventData);
+                animator.SetTrigger("Normal");
             }
 
             if(!onHover && onFocus) 
             {
                 onHover = true;
-                PointerEventData e = new PointerEventData(EventSystem.current);
-                button.OnPointerEnter(e);
-                OnFocus?.Invoke(onFocus, scanDuration);
-                OnHoverEnter?.Invoke();
+                animator.SetTrigger("Highlighted");
             }          
         }
 
-        public override void ScanComplete()
+        public override void OnScanIsComplete()
         {
-            base.ScanComplete();
-            Debug.Log("Scan Complete");
+            base.OnScanIsComplete();
             if (!onHover) return;
-            button.onClick.Invoke();
-            BaseEventData eventData = new BaseEventData(EventSystem.current);
-            button.OnDeselect(eventData);
+            OnClick?.Invoke();
+            animator.SetTrigger("Normal");
+
         }
     }
 }
