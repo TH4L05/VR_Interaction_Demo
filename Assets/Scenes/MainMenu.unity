@@ -21,13 +21,13 @@ RenderSettings:
   m_FogDensity: 0
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.07058824, g: 0.09803922, b: 0.23137255, a: 1}
+  m_AmbientSkyColor: {r: 0.063794926, g: 0.10309166, b: 0.3018868, a: 1}
   m_AmbientEquatorColor: {r: 0.48235294, g: 0.6, b: 0.6784314, a: 1}
   m_AmbientGroundColor: {r: 14, g: 12, b: 10, a: 255}
   m_AmbientIntensity: 0.85
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 8e2c06a6c4d599b4099745bd738d223f, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 39c7553855773534085d177a5301f89f, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.85
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.15617539, g: 0.19476593, b: 0.25897565, a: 0.85}
+  m_IndirectSpecularColor: {r: 0.009491117, g: 0.017780328, b: 0.038170997, a: 0.85}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1267,7 +1267,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &382732808
 Transform:
   m_ObjectHideFlags: 0
@@ -1415,8 +1415,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.81509435, g: 0.9368578, b: 1, a: 1}
-  m_Intensity: 2
+  m_Color: {r: 0.63584906, g: 0.8760337, b: 1, a: 1}
+  m_Intensity: 1.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1459,7 +1459,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
-  m_ColorTemperature: 6500
+  m_ColorTemperature: 5500
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 1.02e-43, y: 1e-45, z: 3.4595e-41, w: -1.3474334e-36}
   m_UseBoundingSphereOverride: 0
@@ -3833,7 +3833,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16163b34ad290174f992ed7fe69aa462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initializeXR: 0
+  initializeXR: 1
+  gameData: {fileID: 11400000, guid: 7fee88325282d2042860adb24bbaac36, type: 2}
   playerVR_GameObject: {fileID: 9062451035508994086}
   playerMK_GameObject: {fileID: 631498091}
   teleport: {fileID: 0}
@@ -4048,7 +4049,7 @@ PrefabInstance:
     - target: {fileID: 3714125560959610158, guid: d4d99147afd76ce42a8ba965da000367,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4015394815660098315, guid: d4d99147afd76ce42a8ba965da000367,
         type: 3}
@@ -4462,73 +4463,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hud
       objectReference: {fileID: 0}
-    - target: {fileID: 4595128162481217498, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6572707390742912767, guid: 4c7c4cce865f7e148a87c140f1113de9,
         type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 1457519054499466553}
-    - target: {fileID: 8408556026171488781, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 6cb1e55317385c14d9aeaa863ba23e83,
-        type: 3}
-    - target: {fileID: 8408556026171488781, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8408556026171488781, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8408556026171488781, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8408556026171488781, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_FillAmount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8408556026171488781, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_FillMethod
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8408556026171488781, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_FillOrigin
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9058480640878615208, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 18e59db9c338af344ae45c630edf99f4,
-        type: 3}
-    - target: {fileID: 9058480640878615208, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9058480640878615208, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9058480640878615208, guid: 4c7c4cce865f7e148a87c140f1113de9,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 382732811}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4630,7 +4569,7 @@ PrefabInstance:
     - target: {fileID: 7773465641738484457, guid: 4f0edb93a617a2d44a82d6fade8f5fc3,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

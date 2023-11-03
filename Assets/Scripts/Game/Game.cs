@@ -17,6 +17,7 @@ namespace eecon_lab
         [SerializeField] private bool initializeXR = false;
 
         [Header("References")]
+        [SerializeField] private GameData gameData;
         [SerializeField] private GameObject playerVR_GameObject;
         [SerializeField] private GameObject playerMK_GameObject;
         [SerializeField] private Teleport teleport;
@@ -37,6 +38,7 @@ namespace eecon_lab
         public static Game Instance;
         public GameObject PlayerGO => activePlayer;
         public Teleport Teleport => teleport;
+        public bool VRactive {  get; private set; }
 
         #endregion
 
@@ -75,14 +77,37 @@ namespace eecon_lab
         {
             if (testCamera != null) testCamera.SetActive(false);
 
-            if (initializeXR)
+            if (gameData.XrInitializeFailed)
+            {
+                SetPlayer(false);
+                return;
+            }
+
+            if (initializeXR && !gameData.XrInitialized)
             {
                 StartCoroutine(InitializeXR());             
+            }
+            else if(gameData.XrInitialized)
+            {
+                SetPlayer(true);
+            }
+            else
+            {
+                SetPlayer(false);
+            }
+        }
+
+        private void SetPlayer(bool playerVR)
+        {
+            if(playerVR)
+            {
+                activePlayer = playerVR_GameObject;
+                VRactive = true;
             }
             else
             {
                 activePlayer = playerMK_GameObject;
-                
+                VRactive = false;
             }
 
             activePlayer.SetActive(true);
@@ -100,13 +125,17 @@ namespace eecon_lab
 
             if (XRGeneralSettings.Instance.Manager.activeLoader == null)
             {
-                Debug.LogError("Initializing XR Failed.");
-                activePlayer = playerMK_GameObject;
+                Debug.LogError("Initializing XR Failed.");              
+                gameData.XrInitialized = false;
+                gameData.XrInitializeFailed = true;
+                SetPlayer(false);
             }
             else
             {            
-                XRGeneralSettings.Instance.Manager.StartSubsystems();   
-                activePlayer = playerVR_GameObject;
+                XRGeneralSettings.Instance.Manager.StartSubsystems();                   
+                gameData.XrInitialized = true;
+                gameData.XrInitializeFailed = false;
+                SetPlayer(true);
             }
         }
         
