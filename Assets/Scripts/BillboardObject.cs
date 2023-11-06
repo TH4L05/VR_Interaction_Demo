@@ -1,6 +1,7 @@
 /// <author>Thomas Krahl</author>
 
 using UnityEngine;
+using eecon_lab;
 
 namespace TK
 {
@@ -10,8 +11,8 @@ namespace TK
 
         private void Start()
         {
-            playerCamera = Camera.main.transform;
-            //playerCamera = Game.Instance.PlayerGO.GetComponentInChildren<Camera>().transform;
+            //playerCamera = Camera.main.transform;
+            playerCamera = Game.Instance.PlayerGO.GetComponentInChildren<Camera>().transform;
         }
 
 

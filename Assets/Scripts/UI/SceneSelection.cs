@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+/// <author>Thomas Krahl</author>
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -9,12 +9,17 @@ namespace eecon_lab.Scene
 {
     public class SceneSelection : MonoBehaviour
     {       
-        [SerializeField] private SceneLoad sceneLoad;
         [SerializeField] private Image scenePreview;
         [SerializeField] private TextMeshProUGUI scenePreviewText;
         [SerializeField] private Sprite scenePreviewSpriteDefault;
-        [SerializeField] private Button playButton;
-        [SerializeField] private TextMeshProUGUI playButtonText;
+        //[SerializeField] private Button playButton;
+        //[SerializeField] private TextMeshProUGUI playButtonText;
+        private SceneLoad sceneLoad;
+
+        private void Start()
+        {
+            sceneLoad = Game.Instance.SceneLoader;
+        }
 
         public void SetScenePreview(string name, Sprite sprite, int sceneIndex)
         {

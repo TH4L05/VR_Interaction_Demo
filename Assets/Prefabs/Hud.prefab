@@ -127,7 +127,7 @@ Canvas:
   m_GameObject: {fileID: 4595128162481217498}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 2
   m_PixelPerfect: 0
@@ -194,9 +194,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scanFillImage: {fileID: 8408556026171488781}
-  crosshairOuter: {fileID: 0}
-  crosshairOuterDefault: {fileID: 0}
-  crosshairOuterFocus: {fileID: 0}
+  crosshairOuter: {fileID: 9058480640878615208}
+  crosshairOuterDefault: {fileID: 21300000, guid: 63ffe4b54dd335f42a54d45df2e8877c,
+    type: 3}
+  crosshairOuterFocus: {fileID: 21300000, guid: efeec7e6506a2794bb59cc3945f9ad44,
+    type: 3}
 --- !u!114 &1052086472093239027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +216,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  vrMode: 0
 --- !u!1 &5142422536832860813
 GameObject:
   m_ObjectHideFlags: 0

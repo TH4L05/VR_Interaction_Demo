@@ -1,34 +1,28 @@
+/// <author>Thomas Krahl</author>
+
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 using UnityEngine.XR.Management;
-using Unity.VisualScripting;
 
 namespace eecon_lab
 {
-    public class XRsetup : MonoBehaviour
+    public class SetupXr : MonoBehaviour
     {
-        [SerializeField] private bool initializeOnStart;
         [SerializeField] private bool dontDestroyOnLoad;
+        [HideInInspector] public bool isInitialized;
+
+        private bool initializeOnStart = true;
         private bool xrInitialized;
 
-        public bool isInitialized;
-
-        private void Awake()
-        {
-            Initialize();
-        }
-
-
-        private void Initialize()
+        public void Initialize()
         {          
             if(!xrInitialized)
             {
-                DontDestroyOnLoad(gameObject);
+                if(dontDestroyOnLoad) DontDestroyOnLoad(gameObject);
 
                 if(XRGeneralSettings.Instance.Manager.activeLoader != null && initializeOnStart)
                 {
+                    Debug.Log("XR already Initialized!");
                     xrInitialized = true;
                     isInitialized = xrInitialized;
                     return;
@@ -63,6 +57,14 @@ namespace eecon_lab
                 Debug.Log("Initializing XR Success.");
             }
 
+            isInitialized = xrInitialized;
+        }
+
+        public void StopXR()
+        {
+            XRGeneralSettings.Instance.Manager.StopSubsystems();
+            XRGeneralSettings.Instance.Manager.DeinitializeLoader();
+            xrInitialized =false;
             isInitialized = xrInitialized;
         }
 

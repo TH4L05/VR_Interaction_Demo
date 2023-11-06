@@ -1,7 +1,6 @@
 /// <author>Thomas Krahl</author>
 
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using eecon_lab.Scene;
 using eecon_lab.Interactables;

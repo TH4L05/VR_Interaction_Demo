@@ -1,6 +1,6 @@
+/// <author>Thomas Krahl</author>
 
 using UnityEngine;
-using UnityEngine.InputSystem;
 using eecon_lab.Input;
 
 

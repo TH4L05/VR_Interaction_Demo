@@ -1,9 +1,7 @@
 /// <author>Thomas Krahl</author>
 
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 namespace eecon_lab.Interactables
 {

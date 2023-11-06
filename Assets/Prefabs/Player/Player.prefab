@@ -2385,7 +2385,6 @@ GameObject:
   - component: {fileID: 7841339171666243387}
   - component: {fileID: 3760687523589585181}
   - component: {fileID: 3576162622997722816}
-  - component: {fileID: 2388644076275421746}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -2519,25 +2518,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &2388644076275421746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8256857785187782863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3476b8c8343b0ff4986f2ae4398d5a78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportAction:
-    actionPath: /actions/default/in/Teleport
-    needsReinit: 0
-  interactUIAction:
-    actionPath: /actions/default/in/InteractUI
-    needsReinit: 0
-  pointer: {fileID: 8264637520247926896}
 --- !u!1 &8367435846159584116
 GameObject:
   m_ObjectHideFlags: 0

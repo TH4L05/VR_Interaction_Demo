@@ -17,7 +17,7 @@ namespace eecon_lab
         [SerializeField] private bool useVR = false;
 
         [Header("References")]
-        [SerializeField] private XRsetup xrSetup;
+        [SerializeField] private SetupXr xrSetup;
         [SerializeField] private GameObject playerVR_GameObject;
         [SerializeField] private GameObject playerMK_GameObject;
         [SerializeField] private Teleport teleport;
@@ -38,6 +38,8 @@ namespace eecon_lab
         public static Game Instance;
         public GameObject PlayerGO => activePlayer;
         public Teleport Teleport => teleport;
+        public SceneLoad SceneLoader => sceneLoad;
+
         public bool VRactive {  get; private set; }
 
         #endregion
@@ -52,13 +54,7 @@ namespace eecon_lab
 
         private void Awake()
         {
-            Instance = this;
-            GameObject xr = GameObject.Find("XR_Setup");
-            xrSetup = xr.GetComponent<XRsetup>();
-
-            playerVR_GameObject.SetActive(false);
-            playerMK_GameObject.SetActive(false);
-
+            Instance = this;        
             Initialize();
         }
         
@@ -82,11 +78,33 @@ namespace eecon_lab
         private void Initialize()
         {
             if(testCamera != null) testCamera.SetActive(false);
+
+            playerVR_GameObject.SetActive(false);
+            playerMK_GameObject.SetActive(false);
+            
+            if (useVR)
+            {
+                GameObject xr = GameObject.Find("XR_Setup");
+                xrSetup = xr.GetComponent<SetupXr>();
+                if (!xrSetup.isInitialized) xrSetup.Initialize();
+                VRactive = xrSetup.isInitialized;
+            }
+            else
+            {
+                VRactive = false;
+            }
+           
         }
 
-        private void SetPlayer(bool playerVR)
+        
+        private void StartSetup()
         {
-            if(playerVR)
+            SetPlayer(VRactive);
+            if (showStartLogo)  StartCoroutine("StartDirector");
+        }
+        private void SetPlayer(bool useVRplayer)
+        {
+            if(useVRplayer)
             {
                 activePlayer = playerVR_GameObject;              
             }
@@ -95,27 +113,18 @@ namespace eecon_lab
                 activePlayer = playerMK_GameObject;
             }
 
+            if (activePlayer == null)
+            {
+                Debug.LogError("Player GameObject Reference is Missing!!");
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
+                return;
+            }
+
             activePlayer.SetActive(true);
         }
         
-        private void StartSetup()
-        {
-            useVR = xrSetup.isInitialized;
-            VRactive = useVR;
-            SetPlayer(useVR);
-
-
-            if (!showStartLogo) return;
-            StartCoroutine("StartDirector");
-        }
-        
-        
-        public void StopXR()
-        {          
-            XRGeneralSettings.Instance.Manager.StopSubsystems();
-            XRGeneralSettings.Instance.Manager.DeinitializeLoader();
-        }
-
         #endregion
 
         private IEnumerator StartDirector()

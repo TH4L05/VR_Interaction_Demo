@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+/// <author>Thomas Krahl</author>
+
 using UnityEngine;
 
 namespace eecon_lab.Character.Player
 {
     public class Player : MonoBehaviour
     {
+        [Header("VR")]
         [SerializeField] private Transform hmdTransform;
 
         private Transform trackingOriginTransform;
