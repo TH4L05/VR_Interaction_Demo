@@ -14,10 +14,10 @@ namespace eecon_lab
         #region SerializedFields
 
         [Header("Option")]
-        [SerializeField] private bool initializeXR = false;
+        [SerializeField] private bool useVR = false;
 
         [Header("References")]
-        [SerializeField] private GameData gameData;
+        [SerializeField] private XRsetup xrSetup;
         [SerializeField] private GameObject playerVR_GameObject;
         [SerializeField] private GameObject playerMK_GameObject;
         [SerializeField] private Teleport teleport;
@@ -53,6 +53,12 @@ namespace eecon_lab
         private void Awake()
         {
             Instance = this;
+            GameObject xr = GameObject.Find("XR_Setup");
+            xrSetup = xr.GetComponent<XRsetup>();
+
+            playerVR_GameObject.SetActive(false);
+            playerMK_GameObject.SetActive(false);
+
             Initialize();
         }
         
@@ -72,42 +78,21 @@ namespace eecon_lab
         #endregion
 
         #region Setup
-        
+
         private void Initialize()
         {
-            if (testCamera != null) testCamera.SetActive(false);
-
-            if (gameData.XrInitializeFailed)
-            {
-                SetPlayer(false);
-                return;
-            }
-
-            if (initializeXR && !gameData.XrInitialized)
-            {
-                StartCoroutine(InitializeXR());             
-            }
-            else if(gameData.XrInitialized)
-            {
-                SetPlayer(true);
-            }
-            else
-            {
-                SetPlayer(false);
-            }
+            if(testCamera != null) testCamera.SetActive(false);
         }
 
         private void SetPlayer(bool playerVR)
         {
             if(playerVR)
             {
-                activePlayer = playerVR_GameObject;
-                VRactive = true;
+                activePlayer = playerVR_GameObject;              
             }
             else
             {
                 activePlayer = playerMK_GameObject;
-                VRactive = false;
             }
 
             activePlayer.SetActive(true);
@@ -115,29 +100,15 @@ namespace eecon_lab
         
         private void StartSetup()
         {
+            useVR = xrSetup.isInitialized;
+            VRactive = useVR;
+            SetPlayer(useVR);
+
+
             if (!showStartLogo) return;
             StartCoroutine("StartDirector");
         }
         
-        private IEnumerator InitializeXR()
-        {
-            yield return XRGeneralSettings.Instance.Manager.InitializeLoader();
-
-            if (XRGeneralSettings.Instance.Manager.activeLoader == null)
-            {
-                Debug.LogError("Initializing XR Failed.");              
-                gameData.XrInitialized = false;
-                gameData.XrInitializeFailed = true;
-                SetPlayer(false);
-            }
-            else
-            {            
-                XRGeneralSettings.Instance.Manager.StartSubsystems();                   
-                gameData.XrInitialized = true;
-                gameData.XrInitializeFailed = false;
-                SetPlayer(true);
-            }
-        }
         
         public void StopXR()
         {          

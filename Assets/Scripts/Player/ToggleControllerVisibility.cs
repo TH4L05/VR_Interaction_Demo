@@ -18,7 +18,7 @@ namespace eecon_lab.Character
 
         private void Update()
         {
-            foreach (var hand in Player.instance.hands)
+            foreach (var hand in Valve.VR.InteractionSystem.Player.instance.hands)
             {
                 if (showControllers)
                 {

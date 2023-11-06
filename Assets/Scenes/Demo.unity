@@ -647,6 +647,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 240679271}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &240679273 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7773465641738484457, guid: 4f0edb93a617a2d44a82d6fade8f5fc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 240679271}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &271916861
 GameObject:
   m_ObjectHideFlags: 0
@@ -3286,7 +3292,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16163b34ad290174f992ed7fe69aa462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerGameObject: {fileID: 9062451035508994086}
+  initializeXR: 0
+  gameData: {fileID: 0}
+  playerVR_GameObject: {fileID: 9062451035508994086}
+  playerMK_GameObject: {fileID: 240679273}
   teleport: {fileID: 599006048}
   sceneLoad: {fileID: 1871217098}
   testCamera: {fileID: 330585543}
@@ -3305,17 +3314,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d445fca444867e4ea75b87840e00c1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnMenuOpen:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMenuClose:
+    m_PersistentCalls:
+      m_Calls: []
   toogleMenu:
     actionPath: /actions/default/in/ToggleIngameMenu
     needsReinit: 0
   pauseMenu: {fileID: 9178310658503512878}
   optionMenu: {fileID: 0}
-  TriggerEventOnMenuOpen:
-    m_PersistentCalls:
-      m_Calls: []
-  TriggerEventOnMenuClose:
-    m_PersistentCalls:
-      m_Calls: []
   showPauseMenu: {fileID: 0}
   hidePauseMenu: {fileID: 0}
   showOptionsMenu: {fileID: 0}

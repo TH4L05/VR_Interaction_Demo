@@ -1,25 +1,31 @@
 /// <author>Thomas Krahl</author>
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace eecon_lab.UI
 {
-    public class HudVR : MonoBehaviour
+    public class Hud : MonoBehaviour
     {
         [SerializeField] private float baseDistance = 2.0f;
         [SerializeField, Range(-1.0f, 1.0f)] private float offset = 0.1f;
         [SerializeField] private LayerMask groundLayer;
         private Transform playerCamera;
         private Canvas canvas;
-        private bool vrMode;
+        public bool vrMode;
 
 
         void Start ()
         {
+            StartCoroutine(StartDelay());           
+        }
+
+        private IEnumerator StartDelay()
+        {
+            yield return new WaitForSeconds(0.5f);
             vrMode = Game.Instance.VRactive;
             Setup();
-            
         }
 
         private void LateUpdate()
