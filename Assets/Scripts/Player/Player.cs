@@ -1,6 +1,9 @@
 /// <author>Thomas Krahl</author>
 
+using System.Collections;
 using UnityEngine;
+using UnityEngine.XR;
+using Valve.VR;
 
 namespace eecon_lab.Character.Player
 {
@@ -8,6 +11,7 @@ namespace eecon_lab.Character.Player
     {
         [Header("VR")]
         [SerializeField] private Transform hmdTransform;
+        
 
         private Transform trackingOriginTransform;
         private bool useVR;

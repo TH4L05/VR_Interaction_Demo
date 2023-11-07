@@ -62,13 +62,14 @@ namespace TK
 
         public void LoadSpecificScene(int sceneIndex)
         {
-            //Debug.Log("load scene : " + SceneManager.GetSceneAt(sceneIndex).name);
+            if (sceneIndex < 0) return;         
+            Debug.Log("load scene : " + SceneManager.GetSceneAt(sceneIndex).name);
             SceneManager.LoadScene(sceneIndex);
         }
 
         public void LoadSpecificScene(string name)
         {
-            //Debug.Log("load scene : " + name);
+            Debug.Log("load scene : " + name);
             SceneManager.LoadScene(name);
         }
 

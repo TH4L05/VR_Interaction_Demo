@@ -140,6 +140,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 738589305373862535, guid: 06eb247ff6860ce428ce591274f15529,
         type: 3}
+      propertyPath: useVR
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 738589305373862535, guid: 06eb247ff6860ce428ce591274f15529,
+        type: 3}
       propertyPath: teleport
       value: 
       objectReference: {fileID: 599006048}

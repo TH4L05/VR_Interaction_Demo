@@ -156,6 +156,7 @@ namespace Valve.VR.InteractionSystem
             }
         }
 
+
         //-------------------------------------------------
         // The Interactable object this Hand is currently hovering over
         //-------------------------------------------------

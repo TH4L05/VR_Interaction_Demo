@@ -891,9 +891,6 @@ namespace Valve.VR.InteractionSystem
 				}
 			}
 
-			CharacterController cc = player.GetComponent<CharacterController>();
-			if(cc != null ) cc.enabled = false;
-
 			if ( teleportingToMarker.ShouldMovePlayer() )
 			{
 				Vector3 playerFeetOffset = player.trackingOriginTransform.position - player.feetPositionGuess;
@@ -908,9 +905,8 @@ namespace Valve.VR.InteractionSystem
 			{
 				teleportingToMarker.TeleportPlayer( pointedAtPosition );
 			}
-            if (cc != null) cc.enabled = true;
 
-            Teleport.Player.Send( pointedAtTeleportMarker );
+			Teleport.Player.Send( pointedAtTeleportMarker );
 		}
 
 

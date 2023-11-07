@@ -13,7 +13,7 @@ namespace eecon_lab.UI
         [SerializeField] private LayerMask groundLayer;
         private Transform playerCamera;
         private Canvas canvas;
-        public bool vrMode;
+        private bool vrMode;
 
 
         void Start ()

@@ -1,6 +1,4 @@
 ﻿//======= Copyright (c) Valve Corporation, All rights reserved. ===============
-//== edit by T.Krahl ==
-
 using UnityEngine;
 using System.Collections;
 
@@ -8,31 +6,26 @@ namespace Valve.VR.Extras
 {
     public class SteamVR_LaserPointer : MonoBehaviour
     {
-        #region Fields
+        public SteamVR_Behaviour_Pose pose;
 
-        public SteamVR_Behaviour_Pose pose;      
-        [SerializeField] private SteamVR_Action_Boolean interactWithUI = SteamVR_Input.GetBooleanAction("InteractUI");
-        [SerializeField] private Color color;
-        [SerializeField] private float thickness = 0.002f;
-        [SerializeField] private float thicknessActiveMultiplier = 2f;
-        [SerializeField] private Color clickColor = Color.green;       
-        [SerializeField] private bool addRigidBody = false;
-        [SerializeField] private float maxDistance = 10f;
-        [SerializeField] private Vector3 holderOffset = Vector3.zero;
+        //public SteamVR_Action_Boolean interactWithUI = SteamVR_Input.__actions_default_in_InteractUI;
+        public SteamVR_Action_Boolean interactWithUI = SteamVR_Input.GetBooleanAction("InteractUI");
 
-        public bool isEnabled = true;
+        public bool active = true;
+        public Color color;
+        public float thickness = 0.002f;
+        public Color clickColor = Color.green;
+        public GameObject holder;
+        public GameObject pointer;
+        bool isActive = false;
+        public bool addRigidBody = false;
+        public Transform reference;
         public event PointerEventHandler PointerIn;
         public event PointerEventHandler PointerOut;
         public event PointerEventHandler PointerClick;
 
-        private Transform previousContact = null;
-        private GameObject holder;
-        private GameObject pointer;
-        private bool isActive = false;
+        Transform previousContact = null;
 
-        #endregion
-
-        #region UnityFunctions
 
         private void Start()
         {
@@ -46,16 +39,14 @@ namespace Valve.VR.Extras
 
 
             holder = new GameObject();
-            holder.name = "Holder";
             holder.transform.parent = this.transform;
             holder.transform.localPosition = Vector3.zero;
             holder.transform.localRotation = Quaternion.identity;
 
             pointer = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            pointer.name = "Pointer";
             pointer.transform.parent = holder.transform;
-            pointer.transform.localScale = new Vector3(thickness, thickness, maxDistance);
-            pointer.transform.localPosition = new Vector3(0f, 0f, maxDistance/2f);
+            pointer.transform.localScale = new Vector3(thickness, thickness, 100f);
+            pointer.transform.localPosition = new Vector3(0f, 0f, 50f);
             pointer.transform.localRotation = Quaternion.identity;
             BoxCollider collider = pointer.GetComponent<BoxCollider>();
             if (addRigidBody)
@@ -79,17 +70,34 @@ namespace Valve.VR.Extras
             pointer.GetComponent<MeshRenderer>().material = newMaterial;
         }
 
+        public virtual void OnPointerIn(PointerEventArgs e)
+        {
+            if (PointerIn != null)
+                PointerIn(this, e);
+        }
+
+        public virtual void OnPointerClick(PointerEventArgs e)
+        {
+            if (PointerClick != null)
+                PointerClick(this, e);
+        }
+
+        public virtual void OnPointerOut(PointerEventArgs e)
+        {
+            if (PointerOut != null)
+                PointerOut(this, e);
+        }
+
+
         private void Update()
         {
-            if (!isEnabled) return;
-
             if (!isActive)
             {
                 isActive = true;
                 this.transform.GetChild(0).gameObject.SetActive(true);
             }
 
-            float dist = maxDistance;
+            float dist = 100f;
 
             Ray raycast = new Ray(transform.position, transform.forward);
             RaycastHit hit;
@@ -119,7 +127,7 @@ namespace Valve.VR.Extras
             {
                 previousContact = null;
             }
-            if (bHit && hit.distance < maxDistance)
+            if (bHit && hit.distance < 100f)
             {
                 dist = hit.distance;
             }
@@ -136,7 +144,7 @@ namespace Valve.VR.Extras
 
             if (interactWithUI != null && interactWithUI.GetState(pose.inputSource))
             {
-                pointer.transform.localScale = new Vector3(thickness * 5f, thickness * thicknessActiveMultiplier, dist);
+                pointer.transform.localScale = new Vector3(thickness * 5f, thickness * 5f, dist);
                 pointer.GetComponent<MeshRenderer>().material.color = clickColor;
             }
             else
@@ -146,43 +154,6 @@ namespace Valve.VR.Extras
             }
             pointer.transform.localPosition = new Vector3(0f, 0f, dist / 2f);
         }
-
-        #endregion
-
-        public void SetActive(bool active)
-        {
-            if (!isEnabled) return;
-            if (active)
-            {
-                holder.SetActive(true);
-            }
-            else
-            {
-                holder.SetActive(false);
-            }
-        }
-
-        #region PointerHandle
-
-        public virtual void OnPointerIn(PointerEventArgs e)
-        {
-            if (PointerIn != null)
-                PointerIn(this, e);
-        }
-
-        public virtual void OnPointerClick(PointerEventArgs e)
-        {
-            if (PointerClick != null)
-                PointerClick(this, e);
-        }
-
-        public virtual void OnPointerOut(PointerEventArgs e)
-        {
-            if (PointerOut != null)
-                PointerOut(this, e);
-        }
-
-        #endregion
     }
 
     public struct PointerEventArgs
