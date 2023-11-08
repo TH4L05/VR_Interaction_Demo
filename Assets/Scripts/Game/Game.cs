@@ -77,8 +77,8 @@ namespace eecon_lab
             if (InputHandler.Instance.ExtraInputValue1)
             {
                 Debug.Log("Load Main Menu");
-                sceneLoad.SetLevelIndex(1);
-                sceneLoad.LoadAScene();
+                sceneLoad.SetSceneIndex(1);
+                sceneLoad.LoadScene();
             }
         }
 
@@ -100,15 +100,12 @@ namespace eecon_lab
             if (playerMK_GameObject != null) playerMK_GameObject.SetActive(false);
             
             if (useVR)
-            {
-                Debug.Log("TEST");
-                SetupUnityXR.OnInitFinished += XRInitFinished;
-                
+            {                            
                 GameObject xr = GameObject.Find("XR_Setup");
 
                 if (xr == null)
                 {
-                    Debug.LogError("XR Setup Component is Missing !!");
+                    Debug.LogError("XR Setup Object is Missing !!");
                     XRInitFinished(false);
                     return;
                 }
@@ -117,11 +114,9 @@ namespace eecon_lab
                 xrSetup.Initialize();                             
             }
             else
-            {
-                
+            {               
                 XRInitFinished(false);
-            }
-           
+            }          
         }
 
         private void XRInitFinished(bool isInitialized)
@@ -136,6 +131,7 @@ namespace eecon_lab
             if (showStartLogo)  StartCoroutine("StartDirector");
             if (fadeIn && fadePlayableDirector != null) fadePlayableDirector.Play();
         }
+
         private void SetPlayer(bool useVRplayer)
         {
             if(useVRplayer)

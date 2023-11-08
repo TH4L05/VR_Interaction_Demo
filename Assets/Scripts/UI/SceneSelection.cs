@@ -31,12 +31,12 @@ namespace eecon_lab.Scene
         private void SetSceneIndex(int index)
         {
             if (sceneLoad == null || index == 0 || index < 0) return;
-            sceneLoad.SetLevelIndex(index);
+            sceneLoad.SetSceneIndex(index);
         }
 
         public void PlayScene()
         {
-            sceneLoad.LoadAScene();
+            sceneLoad.LoadScene();
         }
 
         public void ResetScenePreview()

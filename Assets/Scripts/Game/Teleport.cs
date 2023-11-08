@@ -10,7 +10,7 @@ namespace eecon_lab
         #region SerializedFields
 
         [SerializeField] private bool isEnabled = true;
-        [SerializeField] private List<GameObject> teleportPoints = new List<GameObject>();
+        [SerializeField] private List<Transform> teleportPoints = new List<Transform>();
 
         #endregion
 
@@ -48,9 +48,9 @@ namespace eecon_lab
             teleportPosRotation = obj.transform.rotation;
         }
 
-        public void SetTeleportPosition(int index)
+        public void SetTeleport(int index)
         {
-
+            teleportPosition = teleportPoints[index].position;
         }
 
         public void SetTeleport(GameObject teleportPointobject)
@@ -77,6 +77,12 @@ namespace eecon_lab
 
         public void TeleportPlayer()
         {
+            if (!isEnabled)
+            {
+                Debug.LogWarning("INFO - Teleport is NOT enabled");
+                return;
+            }
+
             if (teleportPosition == Vector3.zero)
             {
                 Debug.LogError("ERROR - Teleport Position is not set");
@@ -98,13 +104,6 @@ namespace eecon_lab
 
         private void DoTeleport()
         {
-            if (!isEnabled)
-            {
-                Debug.LogWarning("INFO - Teleport is Disabled");
-                return;
-            }
-
-
             Debug.Log("Teleporting Player ...");
             CharacterController cc = player.GetComponent<CharacterController>();
 
@@ -126,14 +125,14 @@ namespace eecon_lab
         {
             foreach (var point in teleportPoints)
             {
-                point.SetActive(true);
+                point.gameObject.SetActive(true);
             }
         }
 
         public void DisableATeleportPoint(int index)
         {
             if (index < 0 || index > teleportPoints.Count - 1) return;
-            teleportPoints[index].SetActive(false);
+            teleportPoints[index].gameObject.SetActive(false);
         }
 
         public void DisableATeleportPoint(string name)
@@ -143,7 +142,7 @@ namespace eecon_lab
             {
                 if (point.name == name)
                 {
-                    point.SetActive(false);
+                    point.gameObject.SetActive(false);
                     return;
                 }
             }
@@ -152,7 +151,7 @@ namespace eecon_lab
         public void EnableATeleportPoint(int index)
         {
             if (index < 0 || index > teleportPoints.Count - 1) return;
-            teleportPoints[index].SetActive(true);
+            teleportPoints[index].gameObject.SetActive(true);
         }
 
         public void EnableATeleportPoint(string name)
@@ -162,7 +161,7 @@ namespace eecon_lab
             {
                 if (point.name == name)
                 {
-                    point.SetActive(true);
+                    point.gameObject.SetActive(true);
                     return;
                 }
             }
