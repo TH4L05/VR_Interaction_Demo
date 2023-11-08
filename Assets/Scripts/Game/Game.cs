@@ -94,29 +94,31 @@ namespace eecon_lab
         private void Initialize()
         {
             if(testCamera != null) testCamera.SetActive(false);
-            SetupUnityXR.OnInitFinished += XRInitFinished;
+            
 
             if (playerVR_GameObject != null) playerVR_GameObject.SetActive(false);
             if (playerMK_GameObject != null) playerMK_GameObject.SetActive(false);
             
             if (useVR)
             {
-                Debug.Log("<color=#A17FFF>USE VR</color>");
+                Debug.Log("TEST");
+                SetupUnityXR.OnInitFinished += XRInitFinished;
+                
                 GameObject xr = GameObject.Find("XR_Setup");
-                xrSetup = xr.GetComponent<SetupUnityXR>();
-                if (xrSetup == null)
+
+                if (xr == null)
                 {
-#if UNITY_EDITOR
-                    Debug.LogError("SetupUnityXR Component is Missing!!");
-                    UnityEditor.EditorApplication.isPlaying = false;
-#endif                   
+                    Debug.LogError("XR Setup Component is Missing !!");
+                    XRInitFinished(false);
                     return;
                 }
+
+                xrSetup = xr.GetComponent<SetupUnityXR>();
                 xrSetup.Initialize();                             
             }
             else
             {
-                Debug.Log("<color=#A17FFF>USE Mouse and Keyboard</color>");
+                
                 XRInitFinished(false);
             }
            
@@ -138,11 +140,13 @@ namespace eecon_lab
         {
             if(useVRplayer)
             {
+                Debug.Log("<color=#A17FFF>USE VR</color>");
                 activePlayer = playerVR_GameObject;   
                 
             }
             else
             {
+                Debug.Log("<color=#A17FFF>USE Mouse and Keyboard</color>");
                 activePlayer = playerMK_GameObject;
             }
 

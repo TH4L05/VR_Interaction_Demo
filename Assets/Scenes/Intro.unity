@@ -1468,12 +1468,24 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 513735633}
           m_TargetAssemblyTypeName: TK.SceneLoad, Assembly-CSharp
-          m_MethodName: LoadSpecificScene
+          m_MethodName: SetLevelIndex
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 513735633}
+          m_TargetAssemblyTypeName: TK.SceneLoad, Assembly-CSharp
+          m_MethodName: LoadAScene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -1490,6 +1502,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 738589305373862535, guid: 06eb247ff6860ce428ce591274f15529,
+        type: 3}
+      propertyPath: fadeIn
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 738589305373862535, guid: 06eb247ff6860ce428ce591274f15529,
         type: 3}
@@ -1599,7 +1616,6 @@ GameObject:
   - component: {fileID: 20000014648001244}
   - component: {fileID: 114000015543050920}
   - component: {fileID: 1800334002}
-  - component: {fileID: 114000015543050921}
   m_Layer: 0
   m_Name: TestCamera
   m_TagString: Untagged
@@ -1685,14 +1701,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c30a2316e98e1dc4b97e432a1301f85c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!81 &114000015543050921
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012757442200}
-  m_Enabled: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

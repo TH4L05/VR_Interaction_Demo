@@ -104,6 +104,8 @@ namespace eecon_lab
                 return;
             }
 
+
+            Debug.Log("Teleporting Player ...");
             CharacterController cc = player.GetComponent<CharacterController>();
 
             if (cc != null) cc.enabled = false;
