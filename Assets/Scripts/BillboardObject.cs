@@ -12,7 +12,7 @@ namespace TK
         private void Start()
         {
             //playerCamera = Camera.main.transform;
-            playerCamera = Game.Instance.PlayerGO.GetComponentInChildren<Camera>().transform;
+            playerCamera = Game.Instance.Player.ActiveCamera.transform;
         }
 
 

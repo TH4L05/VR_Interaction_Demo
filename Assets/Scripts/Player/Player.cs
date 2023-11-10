@@ -1,27 +1,55 @@
 /// <author>Thomas Krahl</author>
 
-using System.Collections;
 using UnityEngine;
-using UnityEngine.XR;
-using Valve.VR;
+using eecon_lab.Movement.MouseAndKeyboard;
 
 namespace eecon_lab.Character.Player
 {
     public class Player : MonoBehaviour
     {
+        [SerializeField] private Camera cameraVR;
+        [SerializeField] private Camera cameraMK;
+        [SerializeField] private PlayerMovementMK movementMK;
+
         [Header("VR")]
         [SerializeField] private Transform hmdTransform;
         
 
         private Transform trackingOriginTransform;
+        private CharacterController characterController;
         private bool useVR;
-        public float eyeHeight;
+        private float eyeHeight;
+        private Camera activeCamera;
 
+        public Camera ActiveCamera => activeCamera;
 
         public void Start()
+        {                     
+        }
+
+        public void Setup(bool vrActive)
         {
-            trackingOriginTransform = transform;
-            useVR = Game.Instance.VRactive;
+            characterController = GetComponent<CharacterController>();
+            useVR = vrActive;
+
+            if (useVR)
+            {
+                Debug.Log("<color=#A17FFF>USE VR</color>");
+                trackingOriginTransform = transform;
+                movementMK.isEnabled = false;
+                characterController.enabled = false;
+                cameraVR.gameObject.SetActive(true);
+                cameraMK.gameObject.SetActive(false);
+                activeCamera = cameraVR;
+            }
+            else
+            {
+                Debug.Log("<color=#A17FFF>USE Mouse and Keyboard</color>");
+                movementMK.isEnabled = true;
+                cameraMK.gameObject.SetActive(true);
+                cameraVR.gameObject.SetActive(false);
+                activeCamera = cameraMK;
+            }
         }
 
         private void Update()

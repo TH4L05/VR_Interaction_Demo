@@ -20,8 +20,7 @@ namespace eecon_lab
 
         [Header("References")]
         [SerializeField] private SetupUnityXR xrSetup;
-        [SerializeField] private GameObject playerVR_GameObject;
-        [SerializeField] private GameObject playerMK_GameObject;
+        [SerializeField] private Player player;
         [SerializeField] private Teleport teleport;
         [SerializeField] private SceneLoad sceneLoad;
         [SerializeField] private List<Canvas> UiCanvasList = new List<Canvas>();
@@ -45,7 +44,7 @@ namespace eecon_lab
         #region PublicFields
 
         public static Game Instance;
-        public GameObject PlayerGO => activePlayer;
+        public Player Player => player;
         public Teleport Teleport => teleport;
         public SceneLoad SceneLoader => sceneLoad;
 
@@ -54,9 +53,6 @@ namespace eecon_lab
         #endregion
 
         #region PrivateFields
-
-        private GameObject activePlayer;
-
         #endregion
 
         #region UnityFunctions
@@ -94,11 +90,7 @@ namespace eecon_lab
         private void Initialize()
         {
             if(testCamera != null) testCamera.SetActive(false);
-            
-
-            if (playerVR_GameObject != null) playerVR_GameObject.SetActive(false);
-            if (playerMK_GameObject != null) playerMK_GameObject.SetActive(false);
-            
+                       
             if (useVR)
             {                            
                 GameObject xr = GameObject.Find("XR_Setup");
@@ -122,7 +114,7 @@ namespace eecon_lab
         private void XRInitFinished(bool isInitialized)
         {           
             VRactive = isInitialized;
-            SetPlayer(VRactive);
+            PlayerSetup(VRactive);
             UISetup();
         }
         
@@ -132,37 +124,17 @@ namespace eecon_lab
             if (fadeIn && fadePlayableDirector != null) fadePlayableDirector.Play();
         }
 
-        private void SetPlayer(bool useVRplayer)
+        private void PlayerSetup(bool vrActive)
         {
-            if(useVRplayer)
-            {
-                Debug.Log("<color=#A17FFF>USE VR</color>");
-                activePlayer = playerVR_GameObject;   
-                
-            }
-            else
-            {
-                Debug.Log("<color=#A17FFF>USE Mouse and Keyboard</color>");
-                activePlayer = playerMK_GameObject;
-            }
-
-            if (activePlayer == null)
-            {
-                Debug.LogError("Player GameObject Reference is Missing!!");
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#endif
-                return;
-            }
-
-            activePlayer.SetActive(true);
+            if (player == null) return;
+            player.Setup(vrActive);
         }
 
         private void UISetup()
         {
             if (UiCanvasList.Count == 0) return;
 
-            Camera camera = activePlayer.GetComponentInChildren<Camera>();
+            Camera camera = player.ActiveCamera;
 
             foreach (var canvas in UiCanvasList)
             {

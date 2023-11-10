@@ -28,7 +28,7 @@ namespace eecon_lab
 
         private void Start()
         {
-            player = Game.Instance.PlayerGO;
+            player = Game.Instance.Player.gameObject;
         }
 
         #endregion

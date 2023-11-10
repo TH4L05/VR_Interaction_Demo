@@ -63,10 +63,10 @@ namespace eecon_lab.UI
 
             if (vrMode)
             {
-                playerCamera = Game.Instance.PlayerGO.GetComponentInChildren<Camera>().transform;
+                playerCamera = Game.Instance.Player.ActiveCamera.transform;
                 canvas.planeDistance = baseDistanceFromCamera;
                 canvas.renderMode = RenderMode.ScreenSpaceCamera;
-                canvas.worldCamera = Game.Instance.PlayerGO.GetComponentInChildren<Camera>();
+                canvas.worldCamera = Game.Instance.Player.ActiveCamera;
             }
             else
             {

@@ -8,9 +8,15 @@ namespace eecon_lab.Movement.MouseAndKeyboard
 {
     public class PlayerMovementMK : MonoBehaviour
     {
+        #region SerializedFields
+
+        
+        [SerializeField] private Transform mainTransform;
         [SerializeField] private Transform rotationPivot;
         [SerializeField] private MovementData movementData;
-        [SerializeField] private float rotationSensitivity = 10f;
+
+        [SerializeField, Range(1.0f, 2.5f)] private float cameraHeight = 1.77f;
+        [SerializeField, Range(1.0f, 100.0f)] private float rotationSensitivity = 10.0f;
 
         [Header("Options")]
         [SerializeField] private bool canMove = true;
@@ -19,6 +25,8 @@ namespace eecon_lab.Movement.MouseAndKeyboard
         [SerializeField] private bool canJump;
         [SerializeField] private bool canSlide;
 
+        public bool isEnabled { get; set; }
+
         /*[Header("Audio")]
         private float accumulated_Distance = 1f;
         private float step_Distance = 0f;
@@ -26,8 +34,11 @@ namespace eecon_lab.Movement.MouseAndKeyboard
         [SerializeField] private float sprint_step_Distance = 0.5f;
         [SerializeField] private float crouch_step_Distance = 1.5f;*/
 
-        private CharacterController characterController;
+        #endregion
 
+        #region PrivateFields
+
+        private CharacterController characterController;
         private Vector2 movementInput;
         private Vector2 mouseInputValue;
 
@@ -46,6 +57,10 @@ namespace eecon_lab.Movement.MouseAndKeyboard
         private float lastspeed = 1f;
         private float drag;
 
+        #endregion
+
+        #region UnityFunctions
+
         private void Awake()
         {
             GetComponents();
@@ -53,6 +68,7 @@ namespace eecon_lab.Movement.MouseAndKeyboard
 
         private void Start()
         {
+            rotationPivot.position = new Vector3(rotationPivot.position.x, cameraHeight, rotationPivot.position.z);
             Cursor.lockState = CursorLockMode.Locked;
             speed = movementData.move_speed;
             //step_Distance = walk_step_Distance;
@@ -60,10 +76,12 @@ namespace eecon_lab.Movement.MouseAndKeyboard
 
         private void Update()
         {
+            if (!isEnabled) return;
             ReadInputValues();
-            UpdateMovementState();
-         
+            UpdateMovementState();         
         }
+
+        #endregion
 
         private void ReadInputValues()
         {
@@ -73,7 +91,8 @@ namespace eecon_lab.Movement.MouseAndKeyboard
 
         private void GetComponents()
         {
-            characterController = GetComponent<CharacterController>();
+            mainTransform = transform.parent;
+            characterController = GetComponentInParent<CharacterController>();
         }
      
         private void UpdateMovementState()
@@ -103,7 +122,7 @@ namespace eecon_lab.Movement.MouseAndKeyboard
 
         private void UpdateMovement()
         {
-            Vector3 horizontalVelocity = transform.right * movementInput.x + transform.forward * movementInput.y;
+            Vector3 horizontalVelocity = mainTransform.right * movementInput.x + mainTransform.forward * movementInput.y;
 
                 if (isGrounded)
                 {
@@ -178,9 +197,9 @@ namespace eecon_lab.Movement.MouseAndKeyboard
             var rotations = mouseInputValue * rotationSensitivity * Time.deltaTime;
             xRotation -= rotations.y;
             xRotation = Mathf.Clamp(xRotation, -85f, 85f);
-            Vector3 targetRotation = transform.eulerAngles;
+            Vector3 targetRotation = mainTransform.eulerAngles;
             targetRotation.x = xRotation;
-            transform.Rotate(Vector3.up, rotations.x);
+            mainTransform.Rotate(Vector3.up, rotations.x);
             rotationPivot.eulerAngles = targetRotation;         
         }
 
