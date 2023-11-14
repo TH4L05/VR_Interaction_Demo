@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
@@ -40,9 +41,11 @@ namespace eecon_lab
         {              
             if (!xrInitialized && initializeOnStart)
             {
+                IngameLog.instance.AddMessage("Start Initialize XR...", MessageType.Normal);
                 Debug.Log("<color=#00A513>Start Initialize XR ...</color>");
                 if(XRGeneralSettings.Instance.Manager.activeLoader != null)
                 {
+                    IngameLog.instance.AddMessage("XR already Initialized!", MessageType.Normal);
                     Debug.Log("<color=#2AC93A>XR already Initialized!.</color>");
                     StopXR();
                     StartCoroutine(InitializeXR());
@@ -54,6 +57,7 @@ namespace eecon_lab
             }
             else 
             {
+                IngameLog.instance.AddMessage("XR already Initialized!", MessageType.Normal);
                 Debug.Log("<color=#2AC93A>XR already Initialized!.</color>");
                 OnInitFinished?.Invoke(xrInitialized);  
             }
@@ -64,10 +68,12 @@ namespace eecon_lab
         private IEnumerator InitializeXR()
         {
             yield return XRGeneralSettings.Instance.Manager.InitializeLoader();
+            IngameLog.instance.AddMessage("Start XR initialization ...", MessageType.Normal);
             Debug.Log("<color=#00A513>Start XR initialization ...</color>");
 
             if (XRGeneralSettings.Instance.Manager.activeLoader == null)
             {
+                IngameLog.instance.AddMessage("Initializing XR Failed.", MessageType.Error);
                 Debug.LogError("<color=red>Initializing XR Failed.</color>");
                 xrInitialized = false;
             }
@@ -75,6 +81,7 @@ namespace eecon_lab
             {
                 XRGeneralSettings.Instance.Manager.StartSubsystems();
                 xrInitialized = true;
+                IngameLog.instance.AddMessage("Initializing XR Success.", MessageType.Error);
                 Debug.Log("<color=#61C66B>Initializing XR Success.</color>");
             }
 

@@ -31,10 +31,12 @@ namespace eecon_lab.Character.Player
         {
             characterController = GetComponent<CharacterController>();
             useVR = vrActive;
+            //Debug.Log("SETUP PLAYER ->" + useVR);
 
             if (useVR)
             {
-                Debug.Log("<color=#A17FFF>USE VR</color>");
+                IngameLog.instance.AddMessage("USE VR", MessageType.Player);
+                //Debug.Log("<color=#A17FFF>USE VR</color>");
                 trackingOriginTransform = transform;
                 movementMK.isEnabled = false;
                 characterController.enabled = false;
@@ -44,7 +46,8 @@ namespace eecon_lab.Character.Player
             }
             else
             {
-                Debug.Log("<color=#A17FFF>USE Mouse and Keyboard</color>");
+                IngameLog.instance.AddMessage("USE Mouse and Keyboard", MessageType.Player);
+                //Debug.Log("<color=#A17FFF>USE Mouse and Keyboard</color>");
                 movementMK.isEnabled = true;
                 cameraMK.gameObject.SetActive(true);
                 cameraVR.gameObject.SetActive(false);

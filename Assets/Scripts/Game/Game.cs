@@ -59,7 +59,7 @@ namespace eecon_lab
 
         private void Awake()
         {
-            Instance = this;        
+            Instance = this;
             Initialize();
         }
         
@@ -89,15 +89,15 @@ namespace eecon_lab
 
         private void Initialize()
         {
-            if(testCamera != null) testCamera.SetActive(false);
-                       
+            if (testCamera != null) testCamera.SetActive(false);                      
             if (useVR)
             {                            
                 GameObject xr = GameObject.Find("XR_Setup");
 
                 if (xr == null)
                 {
-                    Debug.LogError("XR Setup Object is Missing !!");
+                    IngameLog.instance.AddMessage("XR Setup Object is Missing !!", MessageType.Error);
+                    //Debug.LogError("XR Setup Object is Missing !!");
                     XRInitFinished(false);
                     return;
                 }
@@ -106,13 +106,14 @@ namespace eecon_lab
                 xrSetup.Initialize();                             
             }
             else
-            {               
+            {
                 XRInitFinished(false);
             }          
         }
 
         private void XRInitFinished(bool isInitialized)
-        {           
+        {
+            IngameLog.instance.AddMessage("Setup Done ", MessageType.Info);
             VRactive = isInitialized;
             PlayerSetup(VRactive);
             UISetup();
@@ -125,7 +126,7 @@ namespace eecon_lab
         }
 
         private void PlayerSetup(bool vrActive)
-        {
+        {           
             if (player == null) return;
             player.Setup(vrActive);
         }
