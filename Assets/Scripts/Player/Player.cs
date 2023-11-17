@@ -2,24 +2,23 @@
 
 using UnityEngine;
 using eecon_lab.Movement.MouseAndKeyboard;
+using UnityEngine.SpatialTracking;
 
 namespace eecon_lab.Character.Player
 {
     public class Player : MonoBehaviour
     {
-        [SerializeField] private Camera cameraVR;
-        [SerializeField] private Camera cameraMK;
+        [SerializeField] private Camera activeCamera;
         [SerializeField] private PlayerMovementMK movementMK;
 
         [Header("VR")]
         [SerializeField] private Transform hmdTransform;
-        
+        [SerializeField] private TrackedPoseDriver.TrackingType trackingType = TrackedPoseDriver.TrackingType.RotationOnly;
 
         private Transform trackingOriginTransform;
         private CharacterController characterController;
         private bool useVR;
         private float eyeHeight;
-        private Camera activeCamera;
 
         public Camera ActiveCamera => activeCamera;
 
@@ -31,27 +30,21 @@ namespace eecon_lab.Character.Player
         {
             characterController = GetComponent<CharacterController>();
             useVR = vrActive;
-            //Debug.Log("SETUP PLAYER ->" + useVR);
 
             if (useVR)
             {
-                IngameLog.instance.AddMessage("USE VR", MessageType.Player);
-                //Debug.Log("<color=#A17FFF>USE VR</color>");
+                Game.Instance.ShowIngameLogMessage("USE VR", MessageType.Player);
+                TrackedPoseDriver trackedPoseDriver = activeCamera.transform.parent.gameObject.AddComponent<TrackedPoseDriver>();
+                trackedPoseDriver.trackingType = trackingType;
                 trackingOriginTransform = transform;
                 movementMK.isEnabled = false;
                 characterController.enabled = false;
-                cameraVR.gameObject.SetActive(true);
-                cameraMK.gameObject.SetActive(false);
-                activeCamera = cameraVR;
             }
             else
             {
-                IngameLog.instance.AddMessage("USE Mouse and Keyboard", MessageType.Player);
+                Game.Instance.ShowIngameLogMessage("USE Mouse and Keyboard", MessageType.Player);
                 //Debug.Log("<color=#A17FFF>USE Mouse and Keyboard</color>");
                 movementMK.isEnabled = true;
-                cameraMK.gameObject.SetActive(true);
-                cameraVR.gameObject.SetActive(false);
-                activeCamera = cameraMK;
             }
         }
 

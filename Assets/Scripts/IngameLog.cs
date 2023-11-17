@@ -11,37 +11,41 @@ public class IngameLog : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textField;
     [SerializeField] private Color[] colors = new Color[Enum.GetValues(typeof(MessageType)).Length -1];
 
-    public static IngameLog instance;
+    private bool active;
+    private string color = "FFFFFF";
+    private string prefix
+    {
+        get { return $"<color=#{color}>"; }
+    }
+    private string suffix = "</color>";
 
     private void Awake()
     {
-        if (instance != null)
-        {
-            return;
-        }
-        instance = this;
+        if(textField != null) textField.text = "";
     }
 
     public void AddMessage(string message, MessageType type)
     {
+        if (string.IsNullOrEmpty(message))
+        {
+            Debug.LogError("Cant Show Log Message !! -> Message is Empty");
+            return;
+        }
+
+        color = ColorUtility.ToHtmlStringRGB(colors[(int)type]);
         LogMessage newMessage = new LogMessage()
         {
-            content = message,
+            content = prefix + message + suffix,
             type = type,
-            color = colors[(int)type],
         };
-
+       
         if (messages.Count == maxMessages)
         {
             RemoveFirstMesssage();
         }
         messages.Add(newMessage);
         UpdateMessageView();
-
-        string color = ColorUtility.ToHtmlStringRGB(newMessage.color);
-        string prefix = $"<color=#{color}>";
-        string suffix = "</color>";
-        Debug.Log(prefix + message + suffix);
+        Debug.Log(newMessage.content);
     }
 
     private void RemoveMessage(int index)
@@ -68,6 +72,11 @@ public class IngameLog : MonoBehaviour
         textField.text = content;
     }
 
+    public void ChangeVisbilityState()
+    {
+        active = !active;
+        textField.transform.parent.gameObject.SetActive(active);
+    }
 }
 
 public enum MessageType
@@ -76,6 +85,7 @@ public enum MessageType
     Normal,
     Error,
     Info,
+    System,
     Player,
     UI,
     Other

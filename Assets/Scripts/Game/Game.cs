@@ -8,6 +8,7 @@ using TK;
 using UnityEngine.XR.Management;
 using eecon_lab.Character.Player;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 namespace eecon_lab
 {
@@ -24,6 +25,7 @@ namespace eecon_lab
         [SerializeField] private Teleport teleport;
         [SerializeField] private SceneLoad sceneLoad;
         [SerializeField] private List<Canvas> UiCanvasList = new List<Canvas>();
+        [SerializeField] private IngameLog ingameLog;
 
         [Header("Dev")]
         [SerializeField] private GameObject testCamera;
@@ -47,7 +49,6 @@ namespace eecon_lab
         public Player Player => player;
         public Teleport Teleport => teleport;
         public SceneLoad SceneLoader => sceneLoad;
-
         public bool VRactive {  get; private set; }
 
         #endregion
@@ -61,6 +62,7 @@ namespace eecon_lab
         {
             Instance = this;
             Initialize();
+            
         }
         
         void Start()
@@ -75,6 +77,10 @@ namespace eecon_lab
                 Debug.Log("Load Main Menu");
                 sceneLoad.SetSceneIndex(1);
                 sceneLoad.LoadScene();
+            }
+            if (Keyboard.current.f5Key.wasPressedThisFrame)
+            {
+                ingameLog.ChangeVisbilityState();
             }
         }
 
@@ -91,12 +97,13 @@ namespace eecon_lab
         {
             if (testCamera != null) testCamera.SetActive(false);                      
             if (useVR)
-            {                            
+            {
+                SetupUnityXR.OnInitFinished += XRInitFinished;
                 GameObject xr = GameObject.Find("XR_Setup");
 
                 if (xr == null)
                 {
-                    IngameLog.instance.AddMessage("XR Setup Object is Missing !!", MessageType.Error);
+                    ShowIngameLogMessage("XR Setup Object is Missing !!", MessageType.Error);
                     //Debug.LogError("XR Setup Object is Missing !!");
                     XRInitFinished(false);
                     return;
@@ -113,7 +120,7 @@ namespace eecon_lab
 
         private void XRInitFinished(bool isInitialized)
         {
-            IngameLog.instance.AddMessage("Setup Done ", MessageType.Info);
+            ShowIngameLogMessage("Setup Done ", MessageType.System);
             VRactive = isInitialized;
             PlayerSetup(VRactive);
             UISetup();
@@ -159,6 +166,17 @@ namespace eecon_lab
         {
             yield return new WaitForSeconds(logoStartDelay);
             if (logoPlayableDirector != null && logoPlayableDirector.playableAsset != null) logoPlayableDirector.Play();
+        }
+
+        public void ShowIngameLogMessage(string message, MessageType messageType)
+        {
+            if (ingameLog == null)
+            {
+                Debug.LogError("Cant Show Log Message !! -> Component Reference is Missing");
+                return;
+            }
+
+            ingameLog.AddMessage(message, messageType);
         }
     }
 }
