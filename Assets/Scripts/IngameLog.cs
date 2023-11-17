@@ -87,7 +87,7 @@ public class IngameLog : MonoBehaviour
         };
         if (messages.Count >= maxMessages)
         {
-            OldestFirstMesssage();
+            DeleteOldestMessage();
         }
         messages.Add(newMessage);
         UpdateMessageView();
@@ -122,7 +122,7 @@ public class IngameLog : MonoBehaviour
         messages.Clear();
     }
 
-    private void OldestFirstMesssage()
+    private void DeleteOldestMessage()
     {
         if (messages.Count < 1) return;
         messages.RemoveAt(0);
