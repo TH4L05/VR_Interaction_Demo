@@ -25,10 +25,10 @@ namespace eecon_lab
         [SerializeField] private Teleport teleport;
         [SerializeField] private SceneLoad sceneLoad;
         [SerializeField] private List<Canvas> UiCanvasList = new List<Canvas>();
-        [SerializeField] private IngameLog ingameLog;
 
         [Header("Dev")]
         [SerializeField] private GameObject testCamera;
+        [SerializeField] private IngameLog ingameLog;
 
         [Header("Logo")]
         [SerializeField] private bool showStartLogo = true;
@@ -103,8 +103,9 @@ namespace eecon_lab
 
                 if (xr == null)
                 {
-                    ShowIngameLogMessage("XR Setup Object is Missing !!", MessageType.Error);
-                    //Debug.LogError("XR Setup Object is Missing !!");
+
+                    //ShowIngameLogMessage("XR Setup Object is Missing !!", MessageType.Error);
+                    Debug.LogError("XR Setup Object is Missing !!");
                     XRInitFinished(false);
                     return;
                 }
@@ -120,7 +121,8 @@ namespace eecon_lab
 
         private void XRInitFinished(bool isInitialized)
         {
-            ShowIngameLogMessage("Setup Done ", MessageType.System);
+            //ShowIngameLogMessage("Setup Done", MessageType.System);
+            Debug.Log("Setup Done");
             VRactive = isInitialized;
             PlayerSetup(VRactive);
             UISetup();
@@ -168,7 +170,7 @@ namespace eecon_lab
             if (logoPlayableDirector != null && logoPlayableDirector.playableAsset != null) logoPlayableDirector.Play();
         }
 
-        public void ShowIngameLogMessage(string message, MessageType messageType)
+        /*public void ShowIngameLogMessage(string message, MessageType messageType)
         {
             if (ingameLog == null)
             {
@@ -177,7 +179,7 @@ namespace eecon_lab
             }
 
             ingameLog.AddMessage(message, messageType);
-        }
+        }*/
     }
 }
 

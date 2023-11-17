@@ -41,10 +41,10 @@ namespace eecon_lab
         {              
             if (!xrInitialized && initializeOnStart)
             {
-                Game.Instance.ShowIngameLogMessage("Start Initialize XR...", MessageType.System);
+                Debug.Log("<color=#00A513>Start Initialize XR ...</color>");
                 if (XRGeneralSettings.Instance.Manager.activeLoader != null)
                 {
-                    Game.Instance.ShowIngameLogMessage("XR already Initialized!", MessageType.Info);
+                    Debug.Log("<color=#2AC93A>XR already Initialized!.</color>");
                     StopXR();
                     StartCoroutine(InitializeXR());
                 }
@@ -55,7 +55,7 @@ namespace eecon_lab
             }
             else 
             {
-                Game.Instance.ShowIngameLogMessage("XR already Initialized!", MessageType.Info);
+                Debug.Log("<color=#2AC93A>XR already Initialized!.</color>");
                 OnInitFinished?.Invoke(xrInitialized);  
             }                       
         }
@@ -63,40 +63,37 @@ namespace eecon_lab
         private IEnumerator InitializeXR()
         {
             yield return XRGeneralSettings.Instance.Manager.InitializeLoader();
-            Game.Instance.ShowIngameLogMessage("Start XR initialization ...", MessageType.System);
+            Debug.Log("<color=#00A513>Start XR initialization ...</color>");
 
             if (XRGeneralSettings.Instance.Manager.activeLoader == null)
             {
-                Game.Instance.ShowIngameLogMessage("Initializing XR Failed.", MessageType.Error);
+                Debug.Log("<color=red>Initializing XR Failed.</color>");
                 xrInitialized = false;
             }
             else
             {
                 XRGeneralSettings.Instance.Manager.StartSubsystems();
                 xrInitialized = true;
-                Game.Instance.ShowIngameLogMessage("Initializing XR Success.", MessageType.System);
+                Debug.Log("<color=#61C66B>Initializing XR Success.</color>");
             }
-
             OnInitFinished?.Invoke(xrInitialized);
             if(xrInitialized) InitializeSteamVR();
         }
 
         public void StopXR()
         {
-            Game.Instance.ShowIngameLogMessage("Stopping XR ...", MessageType.System);
             Debug.Log("<color=orange>Stopping XR ...</color>");
             XRGeneralSettings.Instance.Manager.StopSubsystems();
             XRGeneralSettings.Instance.Manager.DeinitializeLoader();
             xrInitialized =false;
-            Game.Instance.ShowIngameLogMessage("XR stopped", MessageType.System);
+            Debug.Log("<color=orange>XR stopped</color>");
         }
 
         public void InitializeSteamVR()
         {
-            Game.Instance.ShowIngameLogMessage("InitSteamVR ...", MessageType.System);
+            Debug.Log("<color=#45708E>InitSteamVR ...</color>");
             steamVR_Behaviour.InitializeSteamVR();
         }
-
     }
 }
 

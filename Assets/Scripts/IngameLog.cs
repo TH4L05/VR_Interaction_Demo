@@ -3,28 +3,97 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.InputSystem;
 
 public class IngameLog : MonoBehaviour
 {
-    [SerializeField] private List<LogMessage> messages = new List<LogMessage>();
-    [SerializeField] private int maxMessages = 10;
-    [SerializeField] private TextMeshProUGUI textField;
-    [SerializeField] private Color[] colors = new Color[Enum.GetValues(typeof(MessageType)).Length -1];
+    [System.Serializable]
+    public struct LogMessage
+    {
+        public string content;
+        public string stagTrace;
+        public LogType type;
+        //public Color color;
+    }
 
-    private bool active;
-    private string color = "FFFFFF";
-    private string prefix
+    /*public enum MessageType
+    {
+        Invalid = -1,
+        Normal,
+        Error,
+        Info,
+        System,
+        Player,
+        UI,
+        Other
+     }*/
+
+    #region SerializedFields
+
+    [SerializeField] private List<LogMessage> messages = new List<LogMessage>();
+    [SerializeField, Range(1,50)] private int maxMessages = 10;
+    [SerializeField] private TextMeshProUGUI textField;
+    //[SerializeField] private Color[] colors = new Color[Enum.GetValues(typeof(MessageType)).Length -1];
+
+    #endregion
+
+    #region PrivateFields
+
+    private bool active = true;
+    //private string color = "FFFFFF";
+    /*private string prefix
     {
         get { return $"<color=#{color}>"; }
-    }
-    private string suffix = "</color>";
+    }*/
+    //private string suffix = "</color>";
+
+    #endregion
+
+    #region UnityFunctions
 
     private void Awake()
     {
         if(textField != null) textField.text = "";
+        Application.logMessageReceived += LogMessageReceived;
     }
 
-    public void AddMessage(string message, MessageType type)
+    private void OnDestroy()
+    {
+        Application.logMessageReceived += LogMessageReceived;
+    }
+
+    #endregion
+
+    #region MessageHandle
+
+    private void LogMessageReceived(string content, string stackTrace, LogType type)
+    {
+        AddMessage(content, stackTrace, type);
+    }
+
+    public void AddMessage(string message, string stacktrace, LogType type)
+    {
+        string content = message;
+        if (type == LogType.Error || type == LogType.Exception)
+        {
+            content = "<color=#FF0000>" + message + "</color>";
+        }
+
+        LogMessage newMessage = new LogMessage()
+        {
+            content = content,
+            stagTrace = stacktrace,
+            type = type,
+        };
+        if (messages.Count >= maxMessages)
+        {
+            OldestFirstMesssage();
+        }
+        messages.Add(newMessage);
+        UpdateMessageView();
+    }
+
+    /*public void AddMessage(string message, MessageType type)
     {
         if (string.IsNullOrEmpty(message))
         {
@@ -36,28 +105,32 @@ public class IngameLog : MonoBehaviour
         LogMessage newMessage = new LogMessage()
         {
             content = prefix + message + suffix,
-            type = type,
+            //type = type,
         };
        
         if (messages.Count == maxMessages)
         {
-            RemoveFirstMesssage();
+            OldestFirstMesssage();
         }
         messages.Add(newMessage);
         UpdateMessageView();
         Debug.Log(newMessage.content);
-    }
+    }*/
 
-    private void RemoveMessage(int index)
+    public void ClearMessages()
     {
-
+        messages.Clear();
     }
 
-    private void RemoveFirstMesssage()
+    private void OldestFirstMesssage()
     {
         if (messages.Count < 1) return;
         messages.RemoveAt(0);
     }
+
+    #endregion
+
+    #region View
 
     public void UpdateMessageView()
     {
@@ -77,24 +150,9 @@ public class IngameLog : MonoBehaviour
         active = !active;
         textField.transform.parent.gameObject.SetActive(active);
     }
+
+    #endregion
 }
 
-public enum MessageType
-{
-    Invalid = -1,
-    Normal,
-    Error,
-    Info,
-    System,
-    Player,
-    UI,
-    Other
-}
 
-[System.Serializable]
-public struct LogMessage
-{
-    public string content;
-    public MessageType type;
-    public Color color;
-}
+

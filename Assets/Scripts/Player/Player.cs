@@ -33,7 +33,7 @@ namespace eecon_lab.Character.Player
 
             if (useVR)
             {
-                Game.Instance.ShowIngameLogMessage("USE VR", MessageType.Player);
+                Debug.Log("<color=#A17FFF>USE VR</color>");
                 TrackedPoseDriver trackedPoseDriver = activeCamera.transform.parent.gameObject.AddComponent<TrackedPoseDriver>();
                 trackedPoseDriver.trackingType = trackingType;
                 trackingOriginTransform = transform;
@@ -42,8 +42,7 @@ namespace eecon_lab.Character.Player
             }
             else
             {
-                Game.Instance.ShowIngameLogMessage("USE Mouse and Keyboard", MessageType.Player);
-                //Debug.Log("<color=#A17FFF>USE Mouse and Keyboard</color>");
+                Debug.Log("<color=#A17FFF>USE Mouse and Keyboard</color>");
                 movementMK.isEnabled = true;
             }
         }
