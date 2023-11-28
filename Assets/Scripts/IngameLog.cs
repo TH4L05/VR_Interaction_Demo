@@ -30,6 +30,7 @@ public class IngameLog : MonoBehaviour
 
     #region SerializedFields
 
+    [SerializeField] private bool isVisibleOnStart = true;
     [SerializeField] private List<LogMessage> messages = new List<LogMessage>();
     [SerializeField, Range(1,50)] private int maxMessages = 10;
     [SerializeField] private TextMeshProUGUI textField;
@@ -39,7 +40,7 @@ public class IngameLog : MonoBehaviour
 
     #region PrivateFields
 
-    private bool active = true;
+    private bool active;
     //private string color = "FFFFFF";
     /*private string prefix
     {
@@ -55,6 +56,12 @@ public class IngameLog : MonoBehaviour
     {
         if(textField != null) textField.text = "";
         Application.logMessageReceived += LogMessageReceived;
+    }
+
+    private void Start()
+    {
+        active = isVisibleOnStart;
+        textField.transform.parent.gameObject.SetActive(active);
     }
 
     private void OnDestroy()
