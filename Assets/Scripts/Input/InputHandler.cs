@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Valve.VR;
 
 namespace eecon_lab.Input
 {
@@ -12,6 +13,12 @@ namespace eecon_lab.Input
 
         [SerializeField] bool enableMovmentInput;
         [SerializeField] bool enableOtherInput;
+
+        [Header("VR Input")]
+        [SerializeField] private SteamVR_Action_Boolean moveForward;
+        [SerializeField] private SteamVR_Action_Boolean moveBackward;
+        [SerializeField] private SteamVR_Action_Boolean rotateLeft;
+        [SerializeField] private SteamVR_Action_Boolean rotateRight;
 
         #endregion
 
@@ -168,6 +175,48 @@ namespace eecon_lab.Input
         private void CrouchInputCancelled(InputAction.CallbackContext context)
         {
             JumpInputValue = context.ReadValueAsButton();
+        }
+
+        #endregion
+
+        #region InputVR
+
+        private bool IsRightHandValid()
+        {
+            return Game.Instance.Player.rightHand.currentAttachedObject != null;
+        }
+
+        private bool IsLeftHandValid()
+        {
+            return Game.Instance.Player.leftHand.currentAttachedObject != null;
+        }
+
+
+        public bool GetMoveForwardState()
+        {
+            if (moveForward == null || !moveForward.activeBinding) return false;
+
+            bool leftHand =  moveForward.GetState(SteamVR_Input_Sources.LeftHand) && IsLeftHandValid();
+            bool rightHand =  moveForward.GetState(SteamVR_Input_Sources.RightHand) &&  IsRightHandValid();
+
+            if (leftHand || rightHand)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool GetMoveBackwardState()
+        {
+            if (moveBackward == null || !moveBackward.activeBinding) return false;
+            bool leftHand = moveBackward.GetState(SteamVR_Input_Sources.LeftHand) && IsLeftHandValid();
+            bool rightHand = moveBackward.GetState(SteamVR_Input_Sources.RightHand) && IsRightHandValid();
+
+            if (leftHand || rightHand)
+            {
+                return true;
+            }
+            return false;
         }
 
         #endregion

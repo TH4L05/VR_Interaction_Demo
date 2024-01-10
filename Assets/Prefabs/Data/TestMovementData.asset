@@ -18,8 +18,10 @@ MonoBehaviour:
   sprint_speed: 7.5
   crouch_speed: 2.5
   slide_speed: 2.5
-  drag: 2.2
-  groundfriction: 4.5
-  aerial_control: 1
-  jumpBufferTimeframe: 0.2
-  coyoteTimeframe: 0.15
+  drag: 1
+  groundfriction: 2
+  stepDistanceWalk: 1
+  stepDistnaceRun: 2
+  stepDistnaceCrouch: 0.5
+  snapAngle: 30
+  canTurnEverySeconds: 0.4

@@ -1,14 +1,14 @@
 /// <author>Thomas Krahl</author>
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
-using eecon_lab.Input;
-using TK;
-using UnityEngine.XR.Management;
-using eecon_lab.Character.Player;
-using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using eecon_lab.Input;
+using eecon_lab.Character.Player;
+using eecon_lab.UI;
+using TK;
 
 namespace eecon_lab
 {
@@ -16,14 +16,16 @@ namespace eecon_lab
     {
         #region SerializedFields
 
-        [Header("Option")]
-        [SerializeField] private bool useVR = false;
+        //[Header("Option")]
+        //[SerializeField] private bool useVR = false;
 
         [Header("References")]
+        [SerializeField] private GameConfig gameConfig;
         [SerializeField] private SetupUnityXR xrSetup;
         [SerializeField] private Player player;
         [SerializeField] private Teleport teleport;
         [SerializeField] private SceneLoad sceneLoad;
+        [SerializeField] private Hud hud;
         [SerializeField] private List<Canvas> UiCanvasList = new List<Canvas>();
 
         [Header("Dev")]
@@ -46,6 +48,7 @@ namespace eecon_lab
         #region PublicFields
 
         public static Game Instance;
+        //public GameConfig GameConfig => gameConfig;
         public Player Player => player;
         public Teleport Teleport => teleport;
         public SceneLoad SceneLoader => sceneLoad;
@@ -60,13 +63,12 @@ namespace eecon_lab
 
         private void Awake()
         {
-            Instance = this;
-            Initialize();
-            
+            Instance = this;                      
         }
         
         void Start()
         {
+            Initialize();
             StartSetup();
         }
 
@@ -78,9 +80,23 @@ namespace eecon_lab
                 sceneLoad.SetSceneIndex(1);
                 sceneLoad.LoadScene();
             }
-            if (Keyboard.current.f5Key.wasPressedThisFrame)
+            if (Keyboard.current.f2Key.wasPressedThisFrame)
+            {
+                hud.ToggleFPS();
+            }
+            if (Keyboard.current.f3Key.wasPressedThisFrame)
             {
                 ingameLog.ChangeVisbilityState();
+            }
+            if (Keyboard.current.f4Key.wasPressedThisFrame)
+            {
+                Application.Quit();
+            }
+            if (Keyboard.current.f5Key.wasPressedThisFrame)
+            {
+                Debug.Log("Load Logo Scene");
+                sceneLoad.SetSceneIndex(0);
+                sceneLoad.LoadScene();
             }
         }
 
@@ -89,22 +105,26 @@ namespace eecon_lab
             SetupUnityXR.OnInitFinished -= XRInitFinished;
         }
 
+        private void OnApplicationQuit()
+        {
+            gameConfig.loadDone = false;
+        }
+
         #endregion
 
         #region Setup
 
         private void Initialize()
         {
-            if (testCamera != null) testCamera.SetActive(false);                      
-            if (useVR)
+            if (testCamera != null) testCamera.SetActive(false);
+            gameConfig.Start();
+            if (gameConfig.UseVR)
             {
                 SetupUnityXR.OnInitFinished += XRInitFinished;
                 GameObject xr = GameObject.Find("XR_Setup");
 
                 if (xr == null)
                 {
-
-                    //ShowIngameLogMessage("XR Setup Object is Missing !!", MessageType.Error);
                     Debug.LogError("XR Setup Object is Missing !!");
                     XRInitFinished(false);
                     return;
@@ -120,10 +140,10 @@ namespace eecon_lab
         }
 
         private void XRInitFinished(bool isInitialized)
-        {
-            //ShowIngameLogMessage("Setup Done", MessageType.System);
-            Debug.Log("Setup Done");
+        {         
+            Debug.Log("XR Setup Done");
             VRactive = isInitialized;
+            AudioSetup();
             PlayerSetup(VRactive);
             UISetup();
         }
@@ -142,10 +162,12 @@ namespace eecon_lab
 
         private void UISetup()
         {
+            if (hud != null) hud.ShowFPS(gameConfig.ShowFps);
+            if (ingameLog != null) ingameLog.ShowLog(gameConfig.ShowLog);
+
             if (UiCanvasList.Count == 0) return;
 
             Camera camera = player.ActiveCamera;
-
             foreach (var canvas in UiCanvasList)
             {
                 if (VRactive)
@@ -161,6 +183,10 @@ namespace eecon_lab
             }
 
         }
+
+        private void AudioSetup()
+        {
+        }
         
         #endregion
 
@@ -169,17 +195,6 @@ namespace eecon_lab
             yield return new WaitForSeconds(logoStartDelay);
             if (logoPlayableDirector != null && logoPlayableDirector.playableAsset != null) logoPlayableDirector.Play();
         }
-
-        /*public void ShowIngameLogMessage(string message, MessageType messageType)
-        {
-            if (ingameLog == null)
-            {
-                Debug.LogError("Cant Show Log Message !! -> Component Reference is Missing");
-                return;
-            }
-
-            ingameLog.AddMessage(message, messageType);
-        }*/
     }
 }
 

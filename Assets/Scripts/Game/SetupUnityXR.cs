@@ -15,8 +15,6 @@ namespace eecon_lab
         public static Action<bool> OnInitFinished;
 
         [SerializeField] private bool dontDestroyOnLoad;
-        [SerializeField] private SteamVR_Behaviour steamVR_Behaviour;
-        //public bool isInitialized;
 
         private bool initializeOnStart = true;
         private bool xrInitialized;
@@ -77,7 +75,6 @@ namespace eecon_lab
                 Debug.Log("<color=#61C66B>Initializing XR Success.</color>");
             }
             OnInitFinished?.Invoke(xrInitialized);
-            if(xrInitialized) InitializeSteamVR();
         }
 
         public void StopXR()
@@ -87,12 +84,6 @@ namespace eecon_lab
             XRGeneralSettings.Instance.Manager.DeinitializeLoader();
             xrInitialized =false;
             Debug.Log("<color=orange>XR stopped</color>");
-        }
-
-        public void InitializeSteamVR()
-        {
-            Debug.Log("<color=#45708E>InitSteamVR ...</color>");
-            steamVR_Behaviour.InitializeSteamVR();
         }
     }
 }

@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3960078202336190976}
   - component: {fileID: 7221343099059701097}
-  - component: {fileID: 2647061527064211404}
-  - component: {fileID: 7211331072522982236}
   m_Layer: 0
   m_Name: XR_Setup
   m_TagString: Untagged
@@ -47,33 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  steamVR_Behaviour: {fileID: 2647061527064211404}
---- !u!114 &2647061527064211404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8158856888214974401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aaa8a3afb932fe478757c1e89cf0cd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initializeSteamVROnAwake: 0
-  doNotDestroy: 0
-  steamvr_render: {fileID: 0}
---- !u!114 &7211331072522982236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8158856888214974401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e979227f3384fac4b8ca0b3550bf005c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  externalCamera: {fileID: 0}
-  externalCameraConfigPath: externalcamera.cfg
+  steamVR_Behaviour: {fileID: 0}

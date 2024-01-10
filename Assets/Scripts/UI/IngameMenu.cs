@@ -19,7 +19,6 @@ public class IngameMenu : MonoBehaviour
     [Header("General")]
     public static bool GamePaused;
     private bool pauseMenuActive;
-    [SerializeField] private SteamVR_Action_Boolean toogleMenu;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject optionMenu;
   
@@ -45,12 +44,7 @@ public class IngameMenu : MonoBehaviour
 
     private void Start()
     {
-        toogleMenu.onStateDown += ToogleMenu_onStateDown;
-    }
-
-    private void ToogleMenu_onStateDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
-    {
-        ToggleMenu();
+        
     }
 
     private void LateUpdate()

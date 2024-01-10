@@ -154,6 +154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c9c9ed84b058a4888c0640b6aef030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  referenceCamera: {fileID: 0}
+  lockX: 1
+  lockY: 0
+  lockZ: 1
 --- !u!114 &3161218933989915664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,9 +196,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d432b54a87fb894aa855e9d6eca21da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInteractable: 1
-  scanDuration: 2
-  OnScanCompleteEvent:
+  OnFocusEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFocusExit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnScanComplete:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
@@ -209,6 +217,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isInteractable: 1
+  scanDuration: 1
 --- !u!1 &5449659057117935373
 GameObject:
   m_ObjectHideFlags: 0
@@ -5021,13 +5031,15 @@ ParticleSystemRenderer:
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 0
   m_AllowRoll: 0
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+  m_UseCustomVertexStreams: 0
   m_VertexStreams: 00010304
+  m_UseCustomTrailVertexStreams: 0
+  m_TrailVertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}

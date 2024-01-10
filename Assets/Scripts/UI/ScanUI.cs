@@ -67,9 +67,9 @@ namespace eecon_lab.UI
         {
             UpdateCrosshair(false);
             if (!onScan) return;
+            onScan = false;
             StopCoroutine(FillScanbar());
             ResetScanbar();
-            onScan = false;
         }
 
         #endregion
@@ -85,7 +85,7 @@ namespace eecon_lab.UI
                 currentScanTime += 0.1f;
                 yield return new WaitForSeconds(0.1f);
             }
-            ScanComplete.Invoke();
+            if (onScan) ScanComplete.Invoke();
             ResetScanbar();
         }
 

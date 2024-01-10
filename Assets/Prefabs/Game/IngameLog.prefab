@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1290436bc9c97ee43ad10daa187abdf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messages: []
+  isVisibleOnStart: 0
   maxMessages: 10
+  activeLogTypes: 030000000200000000000000
   textField: {fileID: 0}
+  messages: []

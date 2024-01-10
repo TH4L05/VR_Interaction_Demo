@@ -16,6 +16,7 @@ namespace eecon_lab.Character
         [SerializeField, Range(1f, 100f)] private float scanRange = 10.0f;
         [SerializeField] private Transform scanOrigin;
         [SerializeField] private LayerMask interactableLayer;
+        [SerializeField] private AudioSource scanCompleteAudioEvent;
 
         #endregion
 
@@ -32,6 +33,7 @@ namespace eecon_lab.Character
         void Start()
         {
             ScanUI.ScanComplete += OnScanComplete;
+            if (scanOrigin == null) scanOrigin = transform.parent;
         }
 
         private void OnDestroy()
@@ -68,7 +70,6 @@ namespace eecon_lab.Character
 
             if (Physics.Raycast(ray, out hit, scanRange, interactableLayer))
             {
-                //Debug.Log("Scan");
                 var interactable = hit.collider.GetComponent<Interactable>();
 
                 if (interactable == null)
@@ -107,6 +108,7 @@ namespace eecon_lab.Character
         {
             paused = true;
             hasFocus = false;
+            if (scanCompleteAudioEvent != null) scanCompleteAudioEvent.Play();
             StartCoroutine(PauseWait());
         }
 
@@ -114,6 +116,7 @@ namespace eecon_lab.Character
         {
             yield return new WaitForSeconds(0.25f);        
             if (interactableOnFocus != null) interactableOnFocus.ChangeFocusState(false);
+            
             yield return new WaitForSeconds(1.5f);
             interactableOnFocus = null;
             paused = false;

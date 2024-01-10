@@ -10,7 +10,7 @@ namespace eecon_lab
         #region SerializedFields
 
         [SerializeField] private bool isEnabled = true;
-        [SerializeField] private List<Transform> teleportPoints = new List<Transform>();
+        [SerializeField] private List<Transform> teleportingPoints = new List<Transform>();
 
         #endregion
 
@@ -18,7 +18,6 @@ namespace eecon_lab
 
         private GameObject player;
         private Vector3 teleportPosition = Vector3.zero;
-        private Quaternion teleportPosRotation;
         private int activeIndex = -1;
         private int lastactiveIndex = -1;
 
@@ -35,35 +34,44 @@ namespace eecon_lab
 
         #region SetTeleportPosition
 
-        public void SetTelportPosition(Vector3 teleportPosition)
+        public void SetTelportPosition(Vector3 position)
         {
-            if (teleportPosition == Vector3.zero) return;
-            this.teleportPosition = teleportPosition;
+            if (position == Vector3.zero) return;
+            teleportPosition = position;
         }
 
         public void SetTeleportPosition(GameObject obj)
         {
             if (obj == null) return;
             teleportPosition = obj.transform.position;
-            teleportPosRotation = obj.transform.rotation;
         }
 
         public void SetTeleport(int index)
         {
-            teleportPosition = teleportPoints[index].position;
+            teleportPosition = teleportingPoints[index].position;
         }
 
-        public void SetTeleport(GameObject teleportPointobject)
+        public void SetTeleport(GameObject gameObject)
         {
-            if (teleportPointobject == null) return;
+            if (gameObject == null || teleportingPoints.Count < 1) return;
+            Debug.Log("Set Teleport ...");
+            
             int index = 0;
-            lastactiveIndex = activeIndex;
-
-            foreach (var point in teleportPoints)
+            foreach (var point in teleportingPoints)
             {
-                if (point.name == teleportPointobject.name)
+                if (point.name == gameObject.name)
                 {
                     teleportPosition = point.transform.position;
+
+                    if (activeIndex < 0)
+                    {
+                        lastactiveIndex = index;
+                    }
+                    else
+                    {
+                        lastactiveIndex = activeIndex;
+                    }
+                    
                     activeIndex = index;
                     return;
                 }
@@ -91,6 +99,27 @@ namespace eecon_lab
             DoTeleport();
         }
 
+        public void TeleportPlayerCustom()
+        {
+            if (teleportPosition == Vector3.zero)
+            {
+                Debug.LogError("ERROR - Teleport Position is not set");
+                return;
+            }
+            DoTeleport();
+        }
+
+        public void TeleportPlayerCustom(Vector3 teleportPosition)
+        {
+            if (teleportPosition == Vector3.zero)
+            {
+                Debug.LogError("ERROR - Teleport Position is not set");
+                return;
+            }
+            this.teleportPosition = teleportPosition;             
+            DoTeleport();
+        }
+
         public void TeleportPlayer(Vector3 teleportPosition)
         {
             if (teleportPosition == Vector3.zero)
@@ -98,23 +127,24 @@ namespace eecon_lab
                 Debug.LogError("ERROR - Teleport Position is not set");
                 return;
             }
-            this.teleportPosition = teleportPosition;
+            this.teleportPosition = teleportPosition;         
             DoTeleport();
         }
 
         private void DoTeleport()
         {
             Debug.Log("Teleporting Player ...");
+
+            EnableATeleportPoint(lastactiveIndex);
+            DisableATeleportPoint(activeIndex);
+
             CharacterController cc = player.GetComponent<CharacterController>();
 
             if (cc != null) cc.enabled = false;
             player.transform.position = teleportPosition;
-            player.transform.rotation = teleportPosRotation;
             if (cc != null) cc.enabled = true;
 
-            teleportPosition = Vector3.zero;
-            EnableATeleportPoint(lastactiveIndex);
-            DisableATeleportPoint(activeIndex);
+            teleportPosition = Vector3.zero;          
         }
 
         #endregion
@@ -123,7 +153,7 @@ namespace eecon_lab
 
         private void EnableAllPoints()
         {
-            foreach (var point in teleportPoints)
+            foreach (var point in teleportingPoints)
             {
                 point.gameObject.SetActive(true);
             }
@@ -131,14 +161,14 @@ namespace eecon_lab
 
         public void DisableATeleportPoint(int index)
         {
-            if (index < 0 || index > teleportPoints.Count - 1) return;
-            teleportPoints[index].gameObject.SetActive(false);
+            if (index < 0 || index > teleportingPoints.Count - 1) return;          
+            teleportingPoints[index].gameObject.SetActive(false);
         }
 
         public void DisableATeleportPoint(string name)
         {
             if (string.IsNullOrEmpty(name)) return;
-            foreach (var point in teleportPoints)
+            foreach (var point in teleportingPoints)
             {
                 if (point.name == name)
                 {
@@ -150,14 +180,14 @@ namespace eecon_lab
 
         public void EnableATeleportPoint(int index)
         {
-            if (index < 0 || index > teleportPoints.Count - 1) return;
-            teleportPoints[index].gameObject.SetActive(true);
+            if (index < 0 || index > teleportingPoints.Count - 1) return;
+            teleportingPoints[index].gameObject.SetActive(true);
         }
 
         public void EnableATeleportPoint(string name)
         {
             if (string.IsNullOrEmpty(name)) return;
-            foreach (var point in teleportPoints)
+            foreach (var point in teleportingPoints)
             {
                 if (point.name == name)
                 {

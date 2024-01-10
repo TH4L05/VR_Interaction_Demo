@@ -33,6 +33,9 @@ namespace Valve.VR.InteractionSystem
 
         protected SteamVR_Input_Sources inputSource;
 
+        public GameObject InstancedHand => handInstance;
+        public GameObject InstancedController => controllerInstance;
+
         protected void Awake()
         {
             renderModelLoadedAction = SteamVR_Events.RenderModelLoadedAction(OnRenderModelLoaded);

@@ -13,40 +13,21 @@ public class IngameLog : MonoBehaviour
         public string content;
         public string stagTrace;
         public LogType type;
-        //public Color color;
     }
-
-    /*public enum MessageType
-    {
-        Invalid = -1,
-        Normal,
-        Error,
-        Info,
-        System,
-        Player,
-        UI,
-        Other
-     }*/
 
     #region SerializedFields
 
     [SerializeField] private bool isVisibleOnStart = true;
-    [SerializeField] private List<LogMessage> messages = new List<LogMessage>();
     [SerializeField, Range(1,50)] private int maxMessages = 10;
+    [SerializeField] private LogType[] activeLogTypes = { LogType.Log, LogType.Warning, LogType.Error};
     [SerializeField] private TextMeshProUGUI textField;
-    //[SerializeField] private Color[] colors = new Color[Enum.GetValues(typeof(MessageType)).Length -1];
+    [SerializeField] private List<LogMessage> messages = new List<LogMessage>();
 
     #endregion
 
     #region PrivateFields
 
     private bool active;
-    //private string color = "FFFFFF";
-    /*private string prefix
-    {
-        get { return $"<color=#{color}>"; }
-    }*/
-    //private string suffix = "</color>";
 
     #endregion
 
@@ -75,6 +56,17 @@ public class IngameLog : MonoBehaviour
 
     private void LogMessageReceived(string content, string stackTrace, LogType type)
     {
+        bool activeLogType = false;
+        foreach (var logType in activeLogTypes) 
+        { 
+            if (logType == type)
+            {
+                activeLogType = true;
+                break;
+            }
+        }
+
+        if (!activeLogType) return;
         AddMessage(content, stackTrace, type);
     }
 
@@ -92,6 +84,7 @@ public class IngameLog : MonoBehaviour
             stagTrace = stacktrace,
             type = type,
         };
+
         if (messages.Count >= maxMessages)
         {
             DeleteOldestMessage();
@@ -99,30 +92,6 @@ public class IngameLog : MonoBehaviour
         messages.Add(newMessage);
         UpdateMessageView();
     }
-
-    /*public void AddMessage(string message, MessageType type)
-    {
-        if (string.IsNullOrEmpty(message))
-        {
-            Debug.LogError("Cant Show Log Message !! -> Message is Empty");
-            return;
-        }
-
-        color = ColorUtility.ToHtmlStringRGB(colors[(int)type]);
-        LogMessage newMessage = new LogMessage()
-        {
-            content = prefix + message + suffix,
-            //type = type,
-        };
-       
-        if (messages.Count == maxMessages)
-        {
-            OldestFirstMesssage();
-        }
-        messages.Add(newMessage);
-        UpdateMessageView();
-        Debug.Log(newMessage.content);
-    }*/
 
     public void ClearMessages()
     {
@@ -155,7 +124,13 @@ public class IngameLog : MonoBehaviour
     public void ChangeVisbilityState()
     {
         active = !active;
-        textField.transform.parent.gameObject.SetActive(active);
+        if(textField != null) textField.transform.parent.gameObject.SetActive(active);
+    }
+
+    public void ShowLog(bool show)
+    {
+        active = show;
+        if (textField != null) textField.transform.parent.gameObject.SetActive(active);
     }
 
     #endregion

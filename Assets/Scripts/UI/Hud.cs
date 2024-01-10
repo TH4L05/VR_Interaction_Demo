@@ -1,39 +1,57 @@
 /// <author>Thomas Krahl</author>
 
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 namespace eecon_lab.UI
 {
     public class Hud : MonoBehaviour
     {
+        #region SerializedFields
+
         [Header("VR Settings")]
         [SerializeField] private float baseDistanceFromCamera = 2.0f;
         [SerializeField, Range(-1.0f, 1.0f)] private float distanceOffset = 0.1f;
         [SerializeField] private LayerMask groundLayer;
-        private Transform playerCamera;
-        private Canvas canvas;
-        private bool vrMode;
+        
 
-        [Header("Crosshair")]
+        [Header("Crosshair"), Space(2.0f)]
+        [SerializeField] private GameObject crosshairParent;
+        [SerializeField] private bool showCrosshair = true;
         [SerializeField] private Vector2 crosshairSizeVR = new Vector2(40f,40f);
         [SerializeField] private Vector2 crosshairSizeMK = new Vector2(80f,80f);
 
+        [Header("FPS"), Space(2.0f)]
+        [SerializeField] private bool dislpayFPS = false;
+        [SerializeField] private TextMeshProUGUI fpsTextField;
+
+        #endregion
+
+        #region PrivateFields
+
+        private Canvas canvas;
+        private Transform playerCamera;
+        private bool vrMode;
+        private float dt;
+
+        #endregion
+
+        #region UnityFunctions
 
         void Start ()
         {
             StartCoroutine(StartDelay());           
         }
 
-        private IEnumerator StartDelay()
-        {
-            yield return new WaitForSeconds(0.5f);           
-            Setup();
-        }
 
         private void LateUpdate()
         {
+            if (dislpayFPS) UpdateFPS();
+
+
             if (!vrMode) return;
             float distance = baseDistanceFromCamera;
 
@@ -49,11 +67,33 @@ namespace eecon_lab.UI
             canvas.planeDistance = distance;
         }
 
+        #endregion
+
+        #region Setup
+
         private void Setup()
         {
             vrMode = Game.Instance.VRactive;
             SetCanvasRenderMode(vrMode);            
+            ShowCrosshair(showCrosshair);
             SetCrosshairSize(vrMode);
+            ShowFPS(dislpayFPS);
+        }
+        
+        private IEnumerator StartDelay()
+        {
+            yield return new WaitForSeconds(0.5f);           
+            Setup();
+        }
+
+        #endregion
+
+        #region Crosshair
+
+        private void ShowCrosshair(bool show)
+        {
+            showCrosshair = show;
+            if(crosshairParent != null) crosshairParent.SetActive(showCrosshair);
         }
 
         private void SetCanvasRenderMode(bool vrMode)
@@ -105,6 +145,39 @@ namespace eecon_lab.UI
                 }
             }
         }
+
+        #endregion
+
+        #region FPS
+
+        public void ToggleFPS()
+        {
+            dislpayFPS = !dislpayFPS;
+            ShowFPS(dislpayFPS);
+        }
+
+        public void ShowFPS(bool show)
+        {
+            dislpayFPS = show;
+            if (fpsTextField != null) fpsTextField.gameObject.SetActive(dislpayFPS);
+        }
+
+        private void UpdateFPS()
+        {
+            if (!dislpayFPS) return;
+            float frames = CalculateFPS();
+            if (fpsTextField != null) fpsTextField.text = "FPS: " + Mathf.Ceil(frames).ToString();
+        }
+
+        private float CalculateFPS()
+        {
+            dt += (Time.deltaTime - dt) * 0.1f;
+            float frames = 1.0f / dt;
+            frames = Mathf.Clamp(frames, 0.0f, 999f);
+            return frames;
+        }
+
+        #endregion
     }
 }
 

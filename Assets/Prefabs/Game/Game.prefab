@@ -44,13 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16163b34ad290174f992ed7fe69aa462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useVR: 1
+  gameConfig: {fileID: 11400000, guid: 77dbaac51acb8a24ca2d4bb80caa60c6, type: 2}
   xrSetup: {fileID: 0}
-  playerVR_GameObject: {fileID: 0}
-  playerMK_GameObject: {fileID: 0}
+  player: {fileID: 0}
   teleport: {fileID: 0}
   sceneLoad: {fileID: 0}
+  hud: {fileID: 0}
+  UiCanvasList:
+  - {fileID: 0}
+  audioMixer: {fileID: 24100000, guid: ec12f7772c03e4c4c9e4c2f1643595ad, type: 2}
   testCamera: {fileID: 0}
+  ingameLog: {fileID: 0}
   showStartLogo: 0
   logoPlayableDirector: {fileID: 0}
-  logoStartDelay: 1.1
+  logoStartDelay: 0.75
+  fadeIn: 1
+  fadePlayableDirector: {fileID: 0}
