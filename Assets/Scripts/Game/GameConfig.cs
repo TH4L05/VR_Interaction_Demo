@@ -21,9 +21,9 @@ namespace eecon_lab
         public bool defaultshowLog = false;
 
         [Header("Default-Audio")]
-        public float defaultMasterVolume = 0.5f;
-        public float defaultMusicVolume = 0.5f;
-        public float defaultSfxVolume = 0.5f;
+        [Range(0.0f,1.0f)] public float defaultMasterVolume = 0.5f;
+        [Range(0.0f, 1.0f)] public float defaultMusicVolume = 0.5f;
+        [Range(0.0f, 1.0f)] public float defaultSfxVolume = 0.5f;
 
         [Header("Default-Graphic")]
         public bool defaultVsync = false;
@@ -54,10 +54,9 @@ namespace eecon_lab
         public float SfxVolume => sfxVolume;    
         public bool VSync => vSync;
 
-        public bool loadDone = false;
+        [HideInInspector] public bool loadDone = false;
 
         #endregion
-
 
         #region SetValues
 
