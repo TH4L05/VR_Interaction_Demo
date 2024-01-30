@@ -16,9 +16,6 @@ namespace eecon_lab
     {
         #region SerializedFields
 
-        //[Header("Option")]
-        //[SerializeField] private bool useVR = false;
-
         [Header("References")]
         [SerializeField] private GameConfig gameConfig;
         [SerializeField] private SetupUnityXR xrSetup;
@@ -29,6 +26,7 @@ namespace eecon_lab
         [SerializeField] private List<Canvas> UiCanvasList = new List<Canvas>();
 
         [Header("Dev")]
+        [SerializeField] private bool fkKeysEnabled = true;
         [SerializeField] private GameObject testCamera;
         [SerializeField] private IngameLog ingameLog;
 
@@ -48,7 +46,6 @@ namespace eecon_lab
         #region PublicFields
 
         public static Game Instance;
-        //public GameConfig GameConfig => gameConfig;
         public Player Player => player;
         public Teleport Teleport => teleport;
         public SceneLoad SceneLoader => sceneLoad;
@@ -74,30 +71,8 @@ namespace eecon_lab
 
         private void LateUpdate()
         {
-            if (InputHandler.Instance.ExtraInputValue1)
-            {
-                Debug.Log("Load Main Menu");
-                sceneLoad.SetSceneIndex(1);
-                sceneLoad.LoadScene();
-            }
-            if (Keyboard.current.f2Key.wasPressedThisFrame)
-            {
-                hud.ToggleFPS();
-            }
-            if (Keyboard.current.f3Key.wasPressedThisFrame)
-            {
-                ingameLog.ChangeVisbilityState();
-            }
-            if (Keyboard.current.f4Key.wasPressedThisFrame)
-            {
-                Application.Quit();
-            }
-            if (Keyboard.current.f5Key.wasPressedThisFrame)
-            {
-                Debug.Log("Load Logo Scene");
-                sceneLoad.SetSceneIndex(0);
-                sceneLoad.LoadScene();
-            }
+            if (!fkKeysEnabled) return;
+            DevInputsCheck();
         }
 
         private void OnDestroy()
@@ -116,6 +91,7 @@ namespace eecon_lab
 
         private void Initialize()
         {
+            Application.targetFrameRate = 90;
             if (testCamera != null) testCamera.SetActive(false);
             gameConfig.Start();
             if (gameConfig.UseVR)
@@ -194,6 +170,32 @@ namespace eecon_lab
         {
             yield return new WaitForSeconds(logoStartDelay);
             if (logoPlayableDirector != null && logoPlayableDirector.playableAsset != null) logoPlayableDirector.Play();
+        }
+
+        private void DevInputsCheck()
+        {
+            if (Keyboard.current.f1Key.wasPressedThisFrame)
+            {
+                Debug.Log("Load Main Menu");
+                sceneLoad.SetSceneIndex(0);
+                sceneLoad.LoadScene();
+            }
+            if (Keyboard.current.f2Key.wasPressedThisFrame)
+            {
+                hud.ToggleFPS();
+            }
+            if (Keyboard.current.f3Key.wasPressedThisFrame)
+            {
+                ingameLog.ChangeVisbilityState();
+            }
+            if (Keyboard.current.f4Key.wasPressedThisFrame)
+            {
+                Application.Quit();
+            }
+            if (Keyboard.current.f5Key.wasPressedThisFrame)
+            {
+                sceneLoad.ReloadCurrentScene();
+            }
         }
     }
 }

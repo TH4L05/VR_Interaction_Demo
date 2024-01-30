@@ -95,6 +95,11 @@ namespace TK
         {
             sceneIndex = idx;
         }
+
+        public void ReloadCurrentScene()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 }
 
