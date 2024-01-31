@@ -921,8 +921,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.89556724, g: 0.6933962, b: 1, a: 1}
-  m_Intensity: 20
+  m_Color: {r: 0.8789052, g: 0.6462264, b: 1, a: 1}
+  m_Intensity: 25
   m_Range: 15
   m_SpotAngle: 98.1278
   m_InnerSpotAngle: 0
@@ -2780,7 +2780,7 @@ ReflectionProbe:
   m_Enabled: 1
   serializedVersion: 2
   m_Type: 0
-  m_Mode: 0
+  m_Mode: 1
   m_RefreshMode: 1
   m_TimeSlicingMode: 2
   m_Resolution: 128
