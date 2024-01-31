@@ -2,9 +2,6 @@
 
 using UnityEngine;
 using eecon_lab.Input;
-using Valve.VR;
-using Valve.VR.InteractionSystem;
-using UnityEngine.Playables;
 using System.Collections;
 
 
@@ -13,8 +10,7 @@ namespace eecon_lab.Movement.MouseAndKeyboard
     public class PlayerMovement : MonoBehaviour
     {
         #region SerializedFields
-
-        
+     
         public bool isEnabled;
         [Space(2f)]
         private Transform mainTransform;
@@ -30,10 +26,7 @@ namespace eecon_lab.Movement.MouseAndKeyboard
         [SerializeField] private bool canSprint;
         [SerializeField] private bool canJump;
         [SerializeField] private bool canSlide;
-
-       
-
-
+   
         [Header("Audio")]
         private float accumulated_Distance = 1f;
         private float step_Distance = 0f;
@@ -62,6 +55,8 @@ namespace eecon_lab.Movement.MouseAndKeyboard
         private float drag;
         private Coroutine coroutineRotate;
         private static float teleportLastActiveTime;
+        private Vector3 SlopeHitNormal;
+        private bool isSliding;
 
         #endregion
 
@@ -86,6 +81,8 @@ namespace eecon_lab.Movement.MouseAndKeyboard
 
         #endregion
 
+        #region Setup
+
         private void ReadInputValues()
         {
             movementInput = InputHandler.Instance.MovementAxisInputValue;
@@ -102,10 +99,13 @@ namespace eecon_lab.Movement.MouseAndKeyboard
         {
             useVR = Game.Instance.VRactive;
             rotationPivot.localPosition = new Vector3(rotationPivot.localPosition.x, cameraHeight, rotationPivot.localPosition.z);
-            Cursor.lockState = CursorLockMode.Locked;
             speed = movementData.move_speed;
             step_Distance = movementData.stepDistanceWalk;
         }
+
+        #endregion
+
+        
 
         private void UpdateMovementState()
         {
@@ -141,7 +141,7 @@ namespace eecon_lab.Movement.MouseAndKeyboard
             /*if (canSlide && isSliding)
             {
                 //slide
-                characterVelocity += new Vector3(SlopeHitNormal.x, -SlopeHitNormal.y, SlopeHitNormal.z) * characterData.slide_speed;
+                characterVelocity += new Vector3(SlopeHitNormal.x, -SlopeHitNormal.y, SlopeHitNormal.z) * movementData.slide_speed;
             }
             else
             {
@@ -218,7 +218,7 @@ namespace eecon_lab.Movement.MouseAndKeyboard
         private void UpdateRotationVR()
         {
 
-            /*if (Time.time < (teleportLastActiveTime + movementData.canTurnEverySeconds))  return;
+            if (Time.time < (teleportLastActiveTime + movementData.canTurnEverySeconds))  return;
 
             if (coroutineRotate != null)
             {
@@ -227,15 +227,15 @@ namespace eecon_lab.Movement.MouseAndKeyboard
             }
 
             float angle = 0f;
-            if (rotateLeft.state)
+            /*if (rotateLeft.state)
             {
                 angle = -movementData.snapAngle;
             }
             else if (rotateRight.state)
             {
                 angle = movementData.snapAngle;
-            }
-            coroutineRotate = StartCoroutine(DoPlayerRotation(angle));*/
+            }*/
+            coroutineRotate = StartCoroutine(DoPlayerRotation(angle));
         }
 
         private IEnumerator DoPlayerRotation(float angle)
@@ -296,12 +296,12 @@ namespace eecon_lab.Movement.MouseAndKeyboard
             }
         }
 
-        /*private void SlideCheck()
+        private void SlideCheck()
         {
-            if (playerController.isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit slopeHit, 2f))
+            if (characterController.isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit slopeHit, 2f))
             {
                 SlopeHitNormal = slopeHit.normal;
-                if (Vector3.Angle(slopeHit.normal, Vector3.up) > playerController.slopeLimit)
+                if (Vector3.Angle(slopeHit.normal, Vector3.up) > characterController.slopeLimit)
                 {
                     isSliding = true;
                 }
@@ -310,7 +310,7 @@ namespace eecon_lab.Movement.MouseAndKeyboard
             {
                 isSliding = false;
             }
-        }*/
+        }
     }
 }
 

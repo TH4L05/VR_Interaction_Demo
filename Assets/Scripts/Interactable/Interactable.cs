@@ -9,12 +9,19 @@ namespace eecon_lab.Interactables
 {
     public class Interactable : MonoBehaviour
     {
+        #region Events
+
         public static Action<float> OnFocus;
         public static Action LostFocus;
+
+        [Header("Events"), Space(2f)]
         public UnityEvent OnFocusEnter;
         public UnityEvent OnFocusExit;
         public UnityEvent OnScanComplete;
 
+        #endregion
+
+        [Header("Settings"), Space(2f)]
         [SerializeField] protected bool isInteractable = true;
         [SerializeField, Range(0.1f, 10.0f)] protected float scanDuration = 2.0f;
         protected bool onFocus;

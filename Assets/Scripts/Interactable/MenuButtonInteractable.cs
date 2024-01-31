@@ -8,7 +8,6 @@ namespace eecon_lab.Interactables
     public class MenuButtonInteractable : Interactable
     {
         [SerializeField] private Animator animator;
-        public UnityEvent OnClick;
         private bool onHover;
 
         public override void ChangeFocusState(bool focus)
@@ -32,7 +31,7 @@ namespace eecon_lab.Interactables
         {
             base.OnScanIsComplete();
             if (!onHover) return;
-            OnClick?.Invoke();
+            OnScanComplete?.Invoke();
             animator.SetTrigger("Normal");
 
         }

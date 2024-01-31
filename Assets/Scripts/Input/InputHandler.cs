@@ -14,11 +14,7 @@ namespace eecon_lab.Input
         [SerializeField] bool enableMovmentInput;
         [SerializeField] bool enableOtherInput;
 
-        [Header("VR Input")]
-        [SerializeField] private SteamVR_Action_Boolean moveForward;
-        [SerializeField] private SteamVR_Action_Boolean moveBackward;
-        [SerializeField] private SteamVR_Action_Boolean rotateLeft;
-        [SerializeField] private SteamVR_Action_Boolean rotateRight;
+        //[Header("VR Input")]
 
         #endregion
 
@@ -183,39 +179,22 @@ namespace eecon_lab.Input
 
         private bool IsRightHandValid()
         {
-            return Game.Instance.Player.rightHand.currentAttachedObject != null;
+            return false;
         }
 
         private bool IsLeftHandValid()
         {
-            return Game.Instance.Player.leftHand.currentAttachedObject != null;
+            return false;
         }
 
 
         public bool GetMoveForwardState()
         {
-            if (moveForward == null || !moveForward.activeBinding) return false;
-
-            bool leftHand =  moveForward.GetState(SteamVR_Input_Sources.LeftHand) && IsLeftHandValid();
-            bool rightHand =  moveForward.GetState(SteamVR_Input_Sources.RightHand) &&  IsRightHandValid();
-
-            if (leftHand || rightHand)
-            {
-                return true;
-            }
             return false;
         }
 
         public bool GetMoveBackwardState()
         {
-            if (moveBackward == null || !moveBackward.activeBinding) return false;
-            bool leftHand = moveBackward.GetState(SteamVR_Input_Sources.LeftHand) && IsLeftHandValid();
-            bool rightHand = moveBackward.GetState(SteamVR_Input_Sources.RightHand) && IsRightHandValid();
-
-            if (leftHand || rightHand)
-            {
-                return true;
-            }
             return false;
         }
 

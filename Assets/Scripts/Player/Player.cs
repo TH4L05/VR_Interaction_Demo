@@ -3,7 +3,6 @@
 using UnityEngine;
 using eecon_lab.Movement.MouseAndKeyboard;
 using UnityEngine.SpatialTracking;
-using Valve.VR.InteractionSystem;
 using Valve.VR;
 
 namespace eecon_lab.Character.Player
@@ -16,7 +15,6 @@ namespace eecon_lab.Character.Player
         [Header("VR")]
         [SerializeField] private Transform hmdTransform;
         [SerializeField] private TrackedPoseDriver.TrackingType trackingType = TrackedPoseDriver.TrackingType.RotationOnly;
-        [SerializeField] private Hand[] steamVrHands;
 
         private Transform trackingOriginTransform;
         private CharacterController characterController;
@@ -24,52 +22,6 @@ namespace eecon_lab.Character.Player
         private float eyeHeight;
 
         public Camera ActiveCamera => activeCamera;
-
-        public Hand leftHand
-        {
-            get
-            {
-                for (int j = 0; j < steamVrHands.Length; j++)
-                {
-                    if (!steamVrHands[j].gameObject.activeInHierarchy)
-                    {
-                        continue;
-                    }
-
-                    if (steamVrHands[j].handType != SteamVR_Input_Sources.LeftHand)
-                    {
-                        continue;
-                    }
-
-                    return steamVrHands[j];
-                }
-
-                return null;
-            }
-        }
-        public Hand rightHand
-        {
-            get
-            {
-                for (int j = 0; j < steamVrHands.Length; j++)
-                {
-                    if (!steamVrHands[j].gameObject.activeInHierarchy)
-                    {
-                        continue;
-                    }
-
-                    if (steamVrHands[j].handType != SteamVR_Input_Sources.RightHand)
-                    {
-                        continue;
-                    }
-
-                    return steamVrHands[j];
-                }
-
-                return null;
-            }
-        }
-
 
         public void Start()
         {                     

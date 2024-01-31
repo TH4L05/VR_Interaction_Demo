@@ -12,13 +12,12 @@ namespace eecon_lab.Scene
         [SerializeField] private Image scenePreview;
         [SerializeField] private TextMeshProUGUI scenePreviewText;
         [SerializeField] private Sprite scenePreviewSpriteDefault;
-        //[SerializeField] private Button playButton;
-        //[SerializeField] private TextMeshProUGUI playButtonText;
-        private SceneLoad sceneLoad;
+        private SceneLoad sceneLoader;
 
         private void Start()
         {
-            sceneLoad = Game.Instance.SceneLoader;
+            sceneLoader = Game.Instance.SceneLoader;
+            SetScenePreviewDefault();
         }
 
         public void SetScenePreview(string name, Sprite sprite, int sceneIndex)
@@ -30,16 +29,16 @@ namespace eecon_lab.Scene
 
         private void SetSceneIndex(int index)
         {
-            if (sceneLoad == null || index == 0 || index < 0) return;
-            sceneLoad.SetSceneIndex(index);
+            if (sceneLoader == null || index == 0 || index < 0) return;
+            sceneLoader.SetSceneIndex(index);
         }
 
-        public void PlayScene()
+        public void LoadScene()
         {
-            sceneLoad.LoadScene();
+            sceneLoader.LoadScene();
         }
 
-        public void ResetScenePreview()
+        public void SetScenePreviewDefault()
         {
             scenePreview.sprite = scenePreviewSpriteDefault;
             scenePreviewText.text = "";

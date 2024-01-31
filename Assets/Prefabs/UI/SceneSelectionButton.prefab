@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.0745098, g: 0.15547709, b: 0.40392157, a: 0.9490196}
+  m_Color: {r: 0.28235295, g: 0.07450981, b: 0.40392157, a: 0.9490196}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -453,16 +453,10 @@ MonoBehaviour:
       m_Calls: []
   OnScanComplete:
     m_PersistentCalls:
-      m_Calls: []
-  isInteractable: 1
-  scanDuration: 0.75
-  animator: {fileID: 1762016739727486185}
-  OnClick:
-    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2966271865208395195}
         m_TargetAssemblyTypeName: eecon_lab.UI.SceneSelectionButton, Assembly-CSharp
-        m_MethodName: SetPrevievImage
+        m_MethodName: UpdatePreview
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -472,6 +466,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isInteractable: 1
+  scanDuration: 0.75
+  animator: {fileID: 1762016739727486185}
 --- !u!114 &2966271865208395195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,8 +482,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Scene 01
-  sceneIndex: 2
-  previewSprite: {fileID: 21300000, guid: 45a7c9781170bdf4da1cbf31a0d2f3ba, type: 3}
+  sceneIndex: 1
+  previewSprite: {fileID: 21300000, guid: 4ecef483c00236145b79127af06922aa, type: 3}
   interactable: {fileID: 0}
 --- !u!95 &1762016739727486185
 Animator:

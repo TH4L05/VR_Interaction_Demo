@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontCreateConfigFile: 1
   usePersistentDataPath: 1
-  defaultUseVR: 1
+  defaultUseVR: 0
   defaultShowFPS: 0
   defaultshowLog: 0
   defaultMasterVolume: 0.5
   defaultMusicVolume: 0.5
   defaultSfxVolume: 0.5
   defaultVsync: 0
-  loadDone: 1
+  loadDone: 0

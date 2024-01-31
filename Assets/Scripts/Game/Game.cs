@@ -111,6 +111,7 @@ namespace eecon_lab
             }
             else
             {
+                ToggleCursorState(CursorLockMode.Locked);
                 XRInitFinished(false);
             }          
         }
@@ -196,6 +197,11 @@ namespace eecon_lab
             {
                 sceneLoad.ReloadCurrentScene();
             }
+        }
+
+        public void ToggleCursorState(CursorLockMode lockMode)
+        {
+            Cursor.lockState = lockMode;
         }
     }
 }
